@@ -28,16 +28,45 @@ site/ (HTML, RSS, sitemap, search) ◄── build ◄── store JSON ◄─�
 
 ## Quick start (local)
 
+The pipeline lives in this repository, so run every command from inside the
+cloned folder. Python 3.12 or 3.13 is recommended.
+
 ```bash
-python -m venv .venv && source .venv/bin/activate
+git clone https://github.com/hlamamc00/AI-News.git
+cd AI-News
+git checkout claude/intelligent-archimedes-ily833   # skip once merged to main
+```
+
+**macOS / Linux**
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-
-# Optional: enable the Claude writer. Without it, the template digest is used.
-export ANTHROPIC_API_KEY=sk-ant-...
-
+export ANTHROPIC_API_KEY=sk-ant-...   # optional: enables the Claude writer
 python -m newsbot run --limit 10      # fetch, write 10 articles, build site/
 python -m http.server -d site 8000    # open http://localhost:8000
 ```
+
+**Windows (PowerShell)**
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+$env:ANTHROPIC_API_KEY = "sk-ant-..."   # optional, this window only
+python -m newsbot run --limit 10        # fetch, write 10 articles, build site\
+python -m http.server -d site 8000      # open http://localhost:8000
+```
+
+If PowerShell refuses to activate the virtual environment, run
+`Set-ExecutionPolicy -Scope Process Bypass` first. `export`, `source` and `&&`
+are bash syntax and do not work in Windows PowerShell 5. Without an API key the
+site still builds, using the template digest writer.
+
+The repository already contains a first batch of articles, so
+`python -m newsbot build` followed by the `http.server` command shows a working
+site before you run the pipeline at all.
 
 Useful commands:
 
@@ -50,8 +79,9 @@ Useful commands:
 | `python -m newsbot build` | Rebuild `site/` from the stored articles only |
 | `python -m newsbot sources --check` | Fetch every feed in the catalogue and report failures |
 
-For local previews, set `NEWSBOT_BASE_URL=http://localhost:8000` before `build`
-so links are not prefixed with the GitHub Pages project path.
+Local builds use root-relative links. The publish workflow sets
+`NEWSBOT_BASE_URL` to the GitHub Pages address so the RSS feed, sitemap and
+canonical links are absolute when deployed.
 
 ## Deploy to GitHub Pages (fully automatic)
 

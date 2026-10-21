@@ -43,3 +43,14 @@ def test_build_site_writes_pages_with_base_path(tmp_path):
 def test_build_site_handles_no_articles(tmp_path):
     out = build_site(Settings({}), [], tmp_path / "site")
     assert "No articles yet" in (out / "index.html").read_text()
+
+
+def test_default_config_builds_root_relative_links(tmp_path, monkeypatch):
+    from newsbot.config import load_settings
+
+    monkeypatch.delenv("NEWSBOT_BASE_URL", raising=False)
+    settings = load_settings()
+    assert settings.base_url == ""
+    out = build_site(settings, [_article("first")], tmp_path / "site")
+    index = (out / "index.html").read_text()
+    assert 'href="/static/style.css"' in index and "/AI-News/" not in index

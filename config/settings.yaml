@@ -7,9 +7,10 @@
 site:
   title: AI News Desk
   tagline: Automated worldwide news, rewritten from 150+ sources every few hours.
-  # Public URL of the deployed site. Used for the RSS feed, sitemap and
-  # canonical links. In GitHub Actions it is set automatically from Pages.
-  base_url: https://example.github.io/AI-News
+  # Public URL of the deployed site, used for the RSS feed, sitemap and
+  # canonical links. Leave empty for local previews (links then start at "/").
+  # The publish workflow sets NEWSBOT_BASE_URL from GitHub Pages automatically.
+  base_url: ""
   language: en
   # Shown in the footer and on the About page. Keep it honest: the site is
   # machine-written.
