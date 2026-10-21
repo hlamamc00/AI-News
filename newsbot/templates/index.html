@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% from "_card.html" import card %}
+{% block content %}
+{% if not hero %}
+<section class="empty">
+  <h1>No articles yet</h1>
+  <p>Run <code>python -m newsbot run</code> to fetch the feeds and write the first batch.</p>
+</section>
+{% else %}
+<section class="hero">
+  {% if site.show_images and hero.image %}
+  <a class="hero-media" href="{{ u(hero.path) }}">
+    <img src="{{ hero.image.url }}" alt="" loading="eager" referrerpolicy="no-referrer" data-hide-on-error>
+  </a>
+  {% endif %}
+  <div class="hero-body">
+    <p class="kicker">
+      <a href="{{ u('/region/' ~ hero.region ~ '/') }}">{{ hero.region|region_label }}</a>
+      <span aria-hidden="true">·</span>
+      <a href="{{ u('/topic/' ~ hero.category ~ '/') }}">{{ hero.category|category_label }}</a>
+    </p>
+    <h1 class="hero-title"><a href="{{ u(hero.path) }}">{{ hero.headline }}</a></h1>
+    <p class="hero-standfirst">{{ hero.standfirst }}</p>
+    <p class="meta">
+      <time datetime="{{ hero.published_at }}">{{ hero.published_at|fmt_datetime }}</time>
+      · From {{ hero.source_names[:3]|join(', ') }}{% if hero.source_names|length > 3 %} and {{ hero.source_names|length - 3 }} more{% endif %}
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">Latest</h2>
+  <div class="grid">
+    {% for a in articles %}{{ card(a) }}{% endfor %}
+  </div>
+</section>
+
+{% if rails %}
+<section class="section">
+  <h2 class="section-title">Around the world</h2>
+  <div class="rails">
+    {% for rail in rails %}
+    <div class="rail">
+      <h3 class="rail-title"><a href="{{ u(rail.path) }}">{{ rail.label }}</a></h3>
+      <ul class="rail-list">
+        {% for a in rail['items'] %}
+        <li><a href="{{ u(a.path) }}">{{ a.headline }}</a>
+          <span class="meta">{{ a.published_at|fmt_date }}</span></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endif %}
+{% endblock %}

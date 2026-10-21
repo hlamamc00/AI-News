@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% from "_card.html" import card %}
+{% block description %}{{ article.standfirst }}{% endblock %}
+{% block head %}
+  <link rel="canonical" href="{{ abs_url(article.path) }}">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ article.headline }}">
+  <meta property="og:description" content="{{ article.standfirst }}">
+  <meta property="og:url" content="{{ abs_url(article.path) }}">
+  {% if site.show_images and article.image %}<meta property="og:image" content="{{ article.image.url }}">{% endif %}
+  <meta property="article:published_time" content="{{ article.published_at }}">
+  <script type="application/ld+json">
+  {{ {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": article.headline,
+    "description": article.standfirst,
+    "datePublished": article.published_at,
+    "author": {"@type": "Organization", "name": site.byline},
+    "publisher": {"@type": "Organization", "name": site.title},
+    "mainEntityOfPage": abs_url(article.path),
+    "keywords": article.tags|join(", "),
+    "citation": article.sources|map(attribute="url")|list
+  }|tojson }}
+  </script>
+{% endblock %}
+{% block content %}
+<article class="article">
+  <header class="article-head">
+    <p class="kicker">
+      <a href="{{ u('/region/' ~ article.region ~ '/') }}">{{ article.region|region_label }}</a>
+      <span aria-hidden="true">·</span>
+      <a href="{{ u('/topic/' ~ article.category ~ '/') }}">{{ article.category|category_label }}</a>
+    </p>
+    <h1 class="article-title">{{ article.headline }}</h1>
+    <p class="article-standfirst">{{ article.standfirst }}</p>
+    <p class="meta">
+      <span>{{ site.byline }}</span> ·
+      <time datetime="{{ article.published_at }}">{{ article.published_at|fmt_datetime }}</time> ·
+      {{ article.word_count }} words ·
+      <span class="confidence confidence-{{ article.confidence }}" title="How well the sources agree">
+        {{ article.confidence }} confidence</span>
+    </p>
+  </header>
+
+  {% if site.show_images and article.image %}
+  <figure class="article-media">
+    <img src="{{ article.image.url }}" alt="" loading="eager" referrerpolicy="no-referrer" data-hide-on-error>
+    <figcaption>Image: {{ article.image.credit }}</figcaption>
+  </figure>
+  {% endif %}
+
+  {% if article.key_points %}
+  <aside class="key-points">
+    <h2>Key points</h2>
+    <ul>{% for p in article.key_points %}<li>{{ p }}</li>{% endfor %}</ul>
+  </aside>
+  {% endif %}
+
+  <div class="article-body">
+    {{ article.body_markdown|md|safe }}
+  </div>
+
+  {% if article.tags %}
+  <p class="tags">{% for t in article.tags %}<span class="tag">{{ t }}</span>{% endfor %}</p>
+  {% endif %}
+
+  <section class="sources">
+    <h2>Sources</h2>
+    <p class="meta">This article was generated automatically{% if article.generated_by == 'claude' %} by a language model{% else %} from the publishers' own summaries{% endif %}
+      from the reports below. Read them for the full story.</p>
+    <ol>
+      {% for s in article.sources %}
+      <li><a href="{{ s.url }}" rel="nofollow noopener" target="_blank">{{ s.title }}</a>
+        <span class="meta">{{ s.name }}{% if s.country %}, {{ s.country }}{% endif %}
+          · {{ s.published_at|fmt_datetime }}</span></li>
+      {% endfor %}
+    </ol>
+  </section>
+</article>
+
+{% if related %}
+<section class="section">
+  <h2 class="section-title">Related</h2>
+  <div class="grid">
+    {% for a in related %}{{ card(a) }}{% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

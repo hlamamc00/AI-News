@@ -1,0 +1,13 @@
+# generated site (built in CI and deployed to Pages)
+site/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+
+# local secrets
+.env

@@ -1,0 +1,80 @@
+# Site-wide settings. Environment variables override a few keys:
+#   NEWSBOT_BASE_URL       -> site.base_url
+#   NEWSBOT_WRITER         -> writer.mode   (auto | claude | template)
+#   NEWSBOT_MAX_ARTICLES   -> articles.max_per_run
+#   ANTHROPIC_API_KEY      -> enables the Claude writer (never put the key here)
+
+site:
+  title: AI News Desk
+  tagline: Automated worldwide news, rewritten from 150+ sources every few hours.
+  # Public URL of the deployed site. Used for the RSS feed, sitemap and
+  # canonical links. In GitHub Actions it is set automatically from Pages.
+  base_url: https://example.github.io/AI-News
+  language: en
+  # Shown in the footer and on the About page. Keep it honest: the site is
+  # machine-written.
+  byline: AI News Desk newsroom (automated)
+
+fetch:
+  # Ignore feed items older than this.
+  max_age_hours: 36
+  # Maximum items taken from any single feed per run.
+  per_feed_limit: 40
+  timeout_seconds: 20
+  workers: 16
+  user_agent: "Mozilla/5.0 (compatible; AINewsDeskBot/1.0; +https://github.com/hlamamc00/AI-News)"
+
+extract:
+  # Fetch the full text of the lead source articles (respecting robots.txt)
+  # so the writer has more than the RSS blurb to work from.
+  enabled: true
+  # How many source URLs to fetch per story.
+  per_story: 2
+  # Characters of extracted text kept per source.
+  max_chars: 3500
+  timeout_seconds: 20
+  workers: 8
+
+articles:
+  # Upper bound on new articles per run.
+  max_per_run: 24
+  # Guarantee at least this many stories per region when candidates exist.
+  per_region_min: 2
+  # Guarantee at least this many stories per topical category (business,
+  # technology, science, health, environment, sport, culture) when available.
+  per_topic_min: 1
+  # No topical category (sport, culture, technology, ...) may take more than
+  # this share of a run. General "world" news is not capped.
+  max_category_share: 0.25
+  # Skip a story if we published something with very similar keywords in the
+  # last N hours (prevents re-writing the same story every run).
+  dedupe_window_hours: 48
+  # Minimum similarity (0-1) that counts as "already covered".
+  dedupe_threshold: 0.5
+
+cluster:
+  # Minimum combined similarity for two items to be treated as one story.
+  threshold: 0.45
+
+writer:
+  # auto     -> use Claude when ANTHROPIC_API_KEY is set, otherwise template
+  # claude   -> require Claude (fails loudly if no key)
+  # template -> never call an LLM; stitch attributed summaries together
+  mode: auto
+  model: claude-opus-5-5
+  # low | medium | high | xhigh | max
+  effort: medium
+  max_tokens: 16000
+  # Parallel article generations.
+  workers: 3
+  # Sources passed to the writer per story.
+  max_sources: 6
+
+build:
+  output_dir: site
+  # Items on the home page, per region page, per topic page, and in the feed.
+  home_items: 30
+  section_items: 60
+  feed_items: 50
+  # Show publisher thumbnails from the RSS feeds (hot-linked, lazy loaded).
+  show_images: true

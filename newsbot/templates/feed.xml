@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>{{ site.title }}</title>
+  <link>{{ site.base_url }}/</link>
+  <description>{{ site.tagline }}</description>
+  <language>{{ site.language }}</language>
+  <lastBuildDate>{{ site.generated_at|rfc822 }}</lastBuildDate>
+  <atom:link href="{{ abs_url('/feed.xml') }}" rel="self" type="application/rss+xml"/>
+  {% for a in articles %}
+  <item>
+    <title>{{ a.headline }}</title>
+    <link>{{ abs_url(a.path) }}</link>
+    <guid isPermaLink="true">{{ abs_url(a.path) }}</guid>
+    <pubDate>{{ a.published_at|rfc822 }}</pubDate>
+    <category>{{ a.region|region_label }}</category>
+    <category>{{ a.category|category_label }}</category>
+    <description>{{ a.standfirst }} Sources: {{ a.source_names|join(', ') }}.</description>
+  </item>
+  {% endfor %}
+</channel>
+</rss>

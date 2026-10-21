@@ -1,0 +1,22 @@
+{% macro card(a, big=False) %}
+<article class="card{% if big %} card-big{% endif %}">
+  {% if site.show_images and a.image %}
+  <a class="card-media" href="{{ u(a.path) }}">
+    <img src="{{ a.image.url }}" alt="" loading="lazy" referrerpolicy="no-referrer" data-hide-on-error>
+  </a>
+  {% endif %}
+  <div class="card-body">
+    <p class="kicker">
+      <a href="{{ u('/region/' ~ a.region ~ '/') }}">{{ a.region|region_label }}</a>
+      <span aria-hidden="true">·</span>
+      <a href="{{ u('/topic/' ~ a.category ~ '/') }}">{{ a.category|category_label }}</a>
+    </p>
+    <h3 class="card-title"><a href="{{ u(a.path) }}">{{ a.headline }}</a></h3>
+    <p class="card-standfirst">{{ a.standfirst }}</p>
+    <p class="meta">
+      <time datetime="{{ a.published_at }}">{{ a.published_at|fmt_datetime }}</time>
+      · {{ a.source_names|length }} source{{ 's' if a.source_names|length != 1 }}
+    </p>
+  </div>
+</article>
+{% endmacro %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% from "_card.html" import card %}
+{% block description %}{{ description }}{% endblock %}
+{% block content %}
+<header class="page-head">
+  <p class="kicker">{{ kicker }}</p>
+  <h1>{{ title }}</h1>
+  <p class="lede">{{ description }}</p>
+</header>
+{% if articles %}
+<div class="grid">
+  {% for a in articles %}{{ card(a) }}{% endfor %}
+</div>
+{% else %}
+<p class="empty">Nothing here yet. Stories are added automatically as the feeds update.</p>
+{% endif %}
+{% endblock %}

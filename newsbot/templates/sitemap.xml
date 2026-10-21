@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>{{ abs_url('/') }}</loc><changefreq>hourly</changefreq></url>
+  <url><loc>{{ abs_url('/archive/') }}</loc><changefreq>hourly</changefreq></url>
+  <url><loc>{{ abs_url('/about/') }}</loc></url>
+  {% for r in regions %}<url><loc>{{ abs_url(r.path) }}</loc><changefreq>hourly</changefreq></url>
+  {% endfor %}
+  {% for t in topics %}<url><loc>{{ abs_url(t.path) }}</loc><changefreq>hourly</changefreq></url>
+  {% endfor %}
+  {% for a in articles %}<url><loc>{{ abs_url(a.path) }}</loc><lastmod>{{ a.published_at[:10] }}</lastmod></url>
+  {% endfor %}
+</urlset>

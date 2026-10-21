@@ -1,0 +1,90 @@
+# Runs the newsroom pipeline on a schedule, commits the new articles back to
+# the repository and deploys the generated site to GitHub Pages.
+#
+# One-time setup (see README):
+#   1. Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
+#   2. Settings -> Secrets and variables -> Actions -> New repository secret
+#      ANTHROPIC_API_KEY (optional; without it the template writer is used).
+name: Publish
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"   # four runs a day, off the hour; see README for cost
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Maximum new articles this run"
+        required: false
+        default: ""
+  push:
+    branches: [main]
+    paths-ignore:
+      - "content/**"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch feeds and write new articles
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NEWSBOT_MAX_ARTICLES: ${{ github.event.inputs.limit }}
+        run: python -m newsbot run --no-build
+
+      - name: Commit new articles
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content
+          if git diff --cached --quiet; then
+            echo "No new articles."
+          else
+            git commit -m "newsroom: $(date -u +'%Y-%m-%d %H:%M UTC') [skip ci]"
+            git pull --rebase origin "${{ github.ref_name }}"
+            git push origin "HEAD:${{ github.ref_name }}"
+          fi
+
+      - name: Configure GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Build the site
+        env:
+          NEWSBOT_BASE_URL: ${{ steps.pages.outputs.base_url }}
+        run: python -m newsbot build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

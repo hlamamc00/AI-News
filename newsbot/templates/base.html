@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="{{ site.language }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }} · {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{% block description %}{{ site.tagline }}{% endblock %}">
+  {% block head %}{% endblock %}
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ u('/feed.xml') }}">
+  <link rel="stylesheet" href="{{ u('/static/style.css') }}">
+  <link rel="icon" href="{{ u('/static/favicon.svg') }}" type="image/svg+xml">
+</head>
+<body>
+<header class="masthead">
+  <div class="container masthead-inner">
+    <a class="brand" href="{{ u('/') }}">{{ site.title }}</a>
+    <nav class="nav nav-regions" aria-label="Regions">
+      {% for r in regions %}<a href="{{ u(r.path) }}">{{ r.label }}</a>{% endfor %}
+    </nav>
+    <a class="search-link" href="{{ u('/search/') }}" aria-label="Search">Search</a>
+  </div>
+  <div class="container">
+    <nav class="nav nav-topics" aria-label="Topics">
+      {% for t in topics %}<a href="{{ u(t.path) }}">{{ t.label }}</a>{% endfor %}
+      <a href="{{ u('/archive/') }}">Archive</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+{% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p><strong>{{ site.title }}</strong> is an automated news site. Every article is written by software from
+      reports published by {{ site.source_count }} news organisations and links to its sources.
+      Please read the originals before relying on anything here.</p>
+    <p>
+      <a href="{{ u('/about/') }}">How it works</a> ·
+      <a href="{{ u('/feed.xml') }}">RSS</a> ·
+      <a href="{{ u('/archive/') }}">Archive</a> ·
+      Updated {{ site.generated_at|fmt_datetime }}
+    </p>
+  </div>
+</footer>
+<script src="{{ u('/static/site.js') }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,927 @@
+# Feed catalogue for the newsroom pipeline.
+#
+# Every entry is an RSS/Atom feed. "region" and "category" are the defaults
+# applied to items from that feed; the article writer may re-classify a story
+# once it has read the source material (for example a BBC World item about
+# Nigeria becomes region: africa).
+#
+# Allowed regions:    global, africa, americas, asia, europe, middle-east, oceania
+# Allowed categories: world, politics, business, technology, science, health,
+#                     environment, sport, culture
+#
+# Add, remove or reorder feeds freely. Run `python -m newsbot sources --check`
+# to verify every feed still parses.
+
+sources:
+  # ------------------------------------------------------------------ global
+  - name: BBC News
+    url: https://feeds.bbci.co.uk/news/world/rss.xml
+    region: global
+    category: world
+    country: United Kingdom
+  - name: The Guardian
+    url: https://www.theguardian.com/world/rss
+    region: global
+    category: world
+    country: United Kingdom
+  - name: Al Jazeera
+    url: https://www.aljazeera.com/xml/rss/all.xml
+    region: global
+    category: world
+    country: Qatar
+  - name: Deutsche Welle
+    url: https://rss.dw.com/rdf/rss-en-world
+    region: global
+    category: world
+    country: Germany
+  - name: France 24
+    url: https://www.france24.com/en/rss
+    region: global
+    category: world
+    country: France
+  - name: RFI
+    url: https://www.rfi.fr/en/rss
+    region: global
+    category: world
+    country: France
+  - name: NPR
+    url: https://feeds.npr.org/1004/rss.xml
+    region: global
+    category: world
+    country: United States
+  - name: The New York Times
+    url: https://rss.nytimes.com/services/xml/rss/nyt/World.xml
+    region: global
+    category: world
+    country: United States
+  - name: CNN
+    url: http://rss.cnn.com/rss/edition_world.rss
+    region: global
+    category: world
+    country: United States
+  - name: Sky News
+    url: https://feeds.skynews.com/feeds/rss/world.xml
+    region: global
+    category: world
+    country: United Kingdom
+  - name: Financial Times
+    url: https://www.ft.com/world?format=rss
+    region: global
+    category: world
+    country: United Kingdom
+  - name: UN News
+    url: https://news.un.org/feed/subscribe/en/news/all/rss.xml
+    region: global
+    category: world
+    country: International
+  - name: ReliefWeb
+    url: https://reliefweb.int/updates/rss.xml
+    region: global
+    category: world
+    country: International
+  - name: Semafor
+    url: https://www.semafor.com/rss.xml
+    region: global
+    category: world
+    country: United States
+  - name: Global News
+    url: https://globalnews.ca/world/feed/
+    region: global
+    category: world
+    country: Canada
+  - name: The Globe and Mail
+    url: https://www.theglobeandmail.com/arc/outboundfeeds/rss/category/world/
+    region: global
+    category: world
+    country: Canada
+  - name: Los Angeles Times
+    url: https://www.latimes.com/world-nation/rss2.0.xml
+    region: global
+    category: world
+    country: United States
+  - name: The Straits Times
+    url: https://www.straitstimes.com/news/world/rss.xml
+    region: global
+    category: world
+    country: Singapore
+  - name: South China Morning Post
+    url: https://www.scmp.com/rss/5/feed
+    region: global
+    category: world
+    country: Hong Kong
+  - name: Times of India
+    url: https://timesofindia.indiatimes.com/rssfeeds/296589292.cms
+    region: global
+    category: world
+    country: India
+  - name: Hindustan Times
+    url: https://www.hindustantimes.com/feeds/rss/world-news/rssfeed.xml
+    region: global
+    category: world
+    country: India
+  - name: The Hindu
+    url: https://www.thehindu.com/news/international/feeder/default.rss
+    region: global
+    category: world
+    country: India
+  - name: Dawn
+    url: https://www.dawn.com/feeds/world
+    region: global
+    category: world
+    country: Pakistan
+  - name: The Sydney Morning Herald
+    url: https://www.smh.com.au/rss/world.xml
+    region: global
+    category: world
+    country: Australia
+  - name: Bangkok Post
+    url: https://www.bangkokpost.com/rss/data/world.xml
+    region: global
+    category: world
+    country: Thailand
+  - name: VnExpress International
+    url: https://e.vnexpress.net/rss/world.rss
+    region: global
+    category: world
+    country: Vietnam
+  - name: Anadolu Agency
+    url: https://www.aa.com.tr/en/rss/default?cat=world
+    region: global
+    category: world
+    country: Turkey
+
+  # ------------------------------------------------------------------ africa
+  - name: BBC News Africa
+    url: https://feeds.bbci.co.uk/news/world/africa/rss.xml
+    region: africa
+    category: world
+    country: United Kingdom
+  - name: AllAfrica
+    url: https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf
+    region: africa
+    category: world
+    country: Pan-African
+  - name: Africanews
+    url: https://www.africanews.com/feed/rss
+    region: africa
+    category: world
+    country: Pan-African
+  - name: The Guardian Africa
+    url: https://www.theguardian.com/world/africa/rss
+    region: africa
+    category: world
+    country: United Kingdom
+  - name: France 24 Africa
+    url: https://www.france24.com/en/africa/rss
+    region: africa
+    category: world
+    country: France
+  - name: The Africa Report
+    url: https://www.theafricareport.com/feed/
+    region: africa
+    category: world
+    country: France
+  - name: Premium Times
+    url: https://www.premiumtimesng.com/feed
+    region: africa
+    category: world
+    country: Nigeria
+  - name: Punch
+    url: https://punchng.com/feed/
+    region: africa
+    category: world
+    country: Nigeria
+  - name: Vanguard
+    url: https://www.vanguardngr.com/feed/
+    region: africa
+    category: world
+    country: Nigeria
+  - name: MyJoyOnline
+    url: https://www.myjoyonline.com/feed/
+    region: africa
+    category: world
+    country: Ghana
+  - name: The Standard
+    url: https://www.standardmedia.co.ke/rss/headlines.php
+    region: africa
+    category: world
+    country: Kenya
+  - name: Capital FM
+    url: https://www.capitalfm.co.ke/news/feed/
+    region: africa
+    category: world
+    country: Kenya
+  - name: IOL
+    url: https://www.iol.co.za/rss
+    region: africa
+    category: world
+    country: South Africa
+  - name: Egypt Independent
+    url: https://www.egyptindependent.com/feed/
+    region: africa
+    category: world
+    country: Egypt
+
+  # ---------------------------------------------------------------- americas
+  - name: BBC News US & Canada
+    url: https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml
+    region: americas
+    category: world
+    country: United Kingdom
+  - name: BBC News Latin America
+    url: https://feeds.bbci.co.uk/news/world/latin_america/rss.xml
+    region: americas
+    category: world
+    country: United Kingdom
+  - name: The Guardian Americas
+    url: https://www.theguardian.com/world/americas/rss
+    region: americas
+    category: world
+    country: United Kingdom
+  - name: France 24 Americas
+    url: https://www.france24.com/en/americas/rss
+    region: americas
+    category: world
+    country: France
+  - name: NPR News
+    url: https://feeds.npr.org/1001/rss.xml
+    region: americas
+    category: world
+    country: United States
+  - name: NBC News
+    url: https://feeds.nbcnews.com/nbcnews/public/news
+    region: americas
+    category: world
+    country: United States
+  - name: CBS News
+    url: https://www.cbsnews.com/latest/rss/main
+    region: americas
+    category: world
+    country: United States
+  - name: ABC News
+    url: https://abcnews.go.com/abcnews/topstories
+    region: americas
+    category: world
+    country: United States
+  - name: Axios
+    url: https://www.axios.com/feeds/feed.rss
+    region: americas
+    category: politics
+    country: United States
+  - name: The Hill
+    url: https://thehill.com/feed/
+    region: americas
+    category: politics
+    country: United States
+  - name: Global News Canada
+    url: https://globalnews.ca/canada/feed/
+    region: americas
+    category: world
+    country: Canada
+  - name: Mexico News Daily
+    url: https://mexiconewsdaily.com/feed/
+    region: americas
+    category: world
+    country: Mexico
+  - name: Buenos Aires Times
+    url: https://www.batimes.com.ar/feed
+    region: americas
+    category: world
+    country: Argentina
+  - name: MercoPress
+    url: https://en.mercopress.com/rss/
+    region: americas
+    category: world
+    country: Uruguay
+  - name: The Rio Times
+    url: https://riotimesonline.com/feed/
+    region: americas
+    category: world
+    country: Brazil
+  - name: Prensa Latina
+    url: https://www.plenglish.com/feed/
+    region: americas
+    category: world
+    country: Cuba
+  - name: Havana Times
+    url: https://havanatimes.org/feed/
+    region: americas
+    category: world
+    country: Cuba
+  - name: La Prensa Latina
+    url: https://www.laprensalatina.com/feed/
+    region: americas
+    category: world
+    country: United States
+  - name: Jamaica Observer
+    url: https://www.jamaicaobserver.com/feed/
+    region: americas
+    category: world
+    country: Jamaica
+  - name: Dominican Today
+    url: https://dominicantoday.com/feed/
+    region: americas
+    category: world
+    country: Dominican Republic
+  - name: Trinidad Express
+    url: https://www.trinidadexpress.com/search/?f=rss
+    region: americas
+    category: world
+    country: Trinidad and Tobago
+
+  # -------------------------------------------------------------------- asia
+  - name: BBC News Asia
+    url: https://feeds.bbci.co.uk/news/world/asia/rss.xml
+    region: asia
+    category: world
+    country: United Kingdom
+  - name: The Guardian Asia
+    url: https://www.theguardian.com/world/asia/rss
+    region: asia
+    category: world
+    country: United Kingdom
+  - name: France 24 Asia-Pacific
+    url: https://www.france24.com/en/asia-pacific/rss
+    region: asia
+    category: world
+    country: France
+  - name: Deutsche Welle Asia
+    url: https://rss.dw.com/rdf/rss-en-asia
+    region: asia
+    category: world
+    country: Germany
+  - name: South China Morning Post China
+    url: https://www.scmp.com/rss/4/feed
+    region: asia
+    category: world
+    country: Hong Kong
+  - name: Hong Kong Free Press
+    url: https://hongkongfp.com/feed/
+    region: asia
+    category: world
+    country: Hong Kong
+  - name: The Japan Times
+    url: https://www.japantimes.co.jp/feed/
+    region: asia
+    category: world
+    country: Japan
+  - name: The Mainichi
+    url: https://mainichi.jp/rss/etc/english_latest.rss
+    region: asia
+    category: world
+    country: Japan
+  - name: Yonhap News Agency
+    url: https://en.yna.co.kr/RSS/news.xml
+    region: asia
+    category: world
+    country: South Korea
+  - name: Times of India Top Stories
+    url: https://timesofindia.indiatimes.com/rssfeedstopstories.cms
+    region: asia
+    category: world
+    country: India
+  - name: The Hindu National
+    url: https://www.thehindu.com/news/national/feeder/default.rss
+    region: asia
+    category: world
+    country: India
+  - name: Dawn Pakistan
+    url: https://www.dawn.com/feeds/home
+    region: asia
+    category: world
+    country: Pakistan
+  - name: The Daily Star
+    url: https://www.thedailystar.net/frontpage/rss.xml
+    region: asia
+    category: world
+    country: Bangladesh
+  - name: The Kathmandu Post
+    url: https://kathmandupost.com/rss
+    region: asia
+    category: world
+    country: Nepal
+  - name: Bangkok Post Top Stories
+    url: https://www.bangkokpost.com/rss/data/topstories.xml
+    region: asia
+    category: world
+    country: Thailand
+  - name: VnExpress News
+    url: https://e.vnexpress.net/rss/news.rss
+    region: asia
+    category: world
+    country: Vietnam
+  - name: Philstar
+    url: https://www.philstar.com/rss/headlines
+    region: asia
+    category: world
+    country: Philippines
+  - name: ANTARA News
+    url: https://en.antaranews.com/rss/news.xml
+    region: asia
+    category: world
+    country: Indonesia
+  - name: The Straits Times Asia
+    url: https://www.straitstimes.com/news/asia/rss.xml
+    region: asia
+    category: world
+    country: Singapore
+  - name: Channel NewsAsia
+    url: https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml
+    region: asia
+    category: world
+    country: Singapore
+  - name: The Diplomat
+    url: https://thediplomat.com/feed/
+    region: asia
+    category: politics
+    country: United States
+  - name: Radio Free Asia
+    url: https://www.rfa.org/english/rss2.xml
+    region: asia
+    category: world
+    country: United States
+  - name: Eurasianet
+    url: https://eurasianet.org/rss
+    region: asia
+    category: world
+    country: United States
+
+  # ------------------------------------------------------------------ europe
+  - name: BBC News Europe
+    url: https://feeds.bbci.co.uk/news/world/europe/rss.xml
+    region: europe
+    category: world
+    country: United Kingdom
+  - name: BBC News UK
+    url: https://feeds.bbci.co.uk/news/uk/rss.xml
+    region: europe
+    category: world
+    country: United Kingdom
+  - name: The Guardian Europe
+    url: https://www.theguardian.com/world/europe-news/rss
+    region: europe
+    category: world
+    country: United Kingdom
+  - name: France 24 Europe
+    url: https://www.france24.com/en/europe/rss
+    region: europe
+    category: world
+    country: France
+  - name: Deutsche Welle Europe
+    url: https://rss.dw.com/rdf/rss-en-eu
+    region: europe
+    category: world
+    country: Germany
+  - name: Euronews
+    url: https://www.euronews.com/rss?level=theme&name=news
+    region: europe
+    category: world
+    country: France
+  - name: Euractiv
+    url: https://www.euractiv.com/feed/
+    region: europe
+    category: politics
+    country: Belgium
+  - name: The Local
+    url: https://www.thelocal.com/feed/
+    region: europe
+    category: world
+    country: Sweden
+  - name: Der Spiegel International
+    url: https://www.spiegel.de/international/index.rss
+    region: europe
+    category: world
+    country: Germany
+  - name: Le Monde
+    url: https://www.lemonde.fr/en/rss/une.xml
+    region: europe
+    category: world
+    country: France
+  - name: El País
+    url: https://feeds.elpais.com/mrss-s/pages/ep/site/english.elpais.com/portada
+    region: europe
+    category: world
+    country: Spain
+  - name: ANSA
+    url: https://www.ansa.it/english/news/english_nr_rss.xml
+    region: europe
+    category: world
+    country: Italy
+  - name: The Irish Times
+    url: https://www.irishtimes.com/arc/outboundfeeds/rss/
+    region: europe
+    category: world
+    country: Ireland
+  - name: DutchNews
+    url: https://www.dutchnews.nl/feed/
+    region: europe
+    category: world
+    country: Netherlands
+  - name: NL Times
+    url: https://nltimes.nl/rss
+    region: europe
+    category: world
+    country: Netherlands
+  - name: Notes from Poland
+    url: https://notesfrompoland.com/feed/
+    region: europe
+    category: world
+    country: Poland
+  - name: Balkan Insight
+    url: https://balkaninsight.com/feed/
+    region: europe
+    category: world
+    country: Bosnia and Herzegovina
+  - name: Ukrinform
+    url: https://www.ukrinform.net/rss/block-lastnews
+    region: europe
+    category: world
+    country: Ukraine
+  - name: The Moscow Times
+    url: https://www.themoscowtimes.com/rss/news
+    region: europe
+    category: world
+    country: Netherlands
+  - name: Portugal Resident
+    url: https://www.portugalresident.com/feed/
+    region: europe
+    category: world
+    country: Portugal
+
+  # ------------------------------------------------------------- middle-east
+  - name: BBC News Middle East
+    url: https://feeds.bbci.co.uk/news/world/middle_east/rss.xml
+    region: middle-east
+    category: world
+    country: United Kingdom
+  - name: The Guardian Middle East
+    url: https://www.theguardian.com/world/middleeast/rss
+    region: middle-east
+    category: world
+    country: United Kingdom
+  - name: France 24 Middle East
+    url: https://www.france24.com/en/middle-east/rss
+    region: middle-east
+    category: world
+    country: France
+  - name: Al-Monitor
+    url: https://www.al-monitor.com/rss
+    region: middle-east
+    category: world
+    country: United States
+  - name: The Jerusalem Post
+    url: https://www.jpost.com/rss/rssfeedsfrontpage.aspx
+    region: middle-east
+    category: world
+    country: Israel
+  - name: Daily Sabah
+    url: https://www.dailysabah.com/rssFeed/world
+    region: middle-east
+    category: world
+    country: Turkey
+  - name: IranWire
+    url: https://iranwire.com/en/feed/
+    region: middle-east
+    category: world
+    country: Iran
+
+  # ----------------------------------------------------------------- oceania
+  - name: BBC News Australia
+    url: https://feeds.bbci.co.uk/news/world/australia/rss.xml
+    region: oceania
+    category: world
+    country: United Kingdom
+  - name: ABC News Australia
+    url: https://www.abc.net.au/news/feed/45910/rss.xml
+    region: oceania
+    category: world
+    country: Australia
+  - name: ABC News Just In
+    url: https://www.abc.net.au/news/feed/51120/rss.xml
+    region: oceania
+    category: world
+    country: Australia
+  - name: SBS News
+    url: https://www.sbs.com.au/news/feed
+    region: oceania
+    category: world
+    country: Australia
+  - name: The Guardian Australia
+    url: https://www.theguardian.com/australia-news/rss
+    region: oceania
+    category: world
+    country: United Kingdom
+  - name: The Conversation Australia
+    url: https://theconversation.com/au/articles.atom
+    region: oceania
+    category: world
+    country: Australia
+  - name: RNZ
+    url: https://www.rnz.co.nz/rss/national.xml
+    region: oceania
+    category: world
+    country: New Zealand
+  - name: RNZ Pacific
+    url: https://www.rnz.co.nz/rss/pacific.xml
+    region: oceania
+    category: world
+    country: New Zealand
+  - name: Stuff
+    url: https://www.stuff.co.nz/rss
+    region: oceania
+    category: world
+    country: New Zealand
+  - name: NZ Herald
+    url: https://www.nzherald.co.nz/arc/outboundfeeds/rss/section/nz/?outputType=xml
+    region: oceania
+    category: world
+    country: New Zealand
+  - name: Islands Business
+    url: https://islandsbusiness.com/feed/
+    region: oceania
+    category: world
+    country: Fiji
+  - name: Pacific Island Times
+    url: https://www.pacificislandtimes.com/blog-feed.xml
+    region: oceania
+    category: world
+    country: Guam
+
+  # ---------------------------------------------------------------- business
+  - name: BBC Business
+    url: https://feeds.bbci.co.uk/news/business/rss.xml
+    region: global
+    category: business
+    country: United Kingdom
+  - name: The Guardian Business
+    url: https://www.theguardian.com/business/rss
+    region: global
+    category: business
+    country: United Kingdom
+  - name: Bloomberg Markets
+    url: https://feeds.bloomberg.com/markets/news.rss
+    region: global
+    category: business
+    country: United States
+  - name: Financial Times Home
+    url: https://www.ft.com/rss/home
+    region: global
+    category: business
+    country: United Kingdom
+  - name: MarketWatch
+    url: https://feeds.content.dowjones.io/public/rss/mw_topstories
+    region: americas
+    category: business
+    country: United States
+  - name: Fortune
+    url: https://fortune.com/feed/
+    region: americas
+    category: business
+    country: United States
+  - name: Business Insider
+    url: https://feeds.businessinsider.com/custom/all
+    region: americas
+    category: business
+    country: United States
+  - name: The Economic Times
+    url: https://economictimes.indiatimes.com/rssfeedsdefault.cms
+    region: asia
+    category: business
+    country: India
+
+  # -------------------------------------------------------------- technology
+  - name: BBC Technology
+    url: https://feeds.bbci.co.uk/news/technology/rss.xml
+    region: global
+    category: technology
+    country: United Kingdom
+  - name: The Guardian Technology
+    url: https://www.theguardian.com/technology/rss
+    region: global
+    category: technology
+    country: United Kingdom
+  - name: TechCrunch
+    url: https://feeds.feedburner.com/TechCrunch
+    region: americas
+    category: technology
+    country: United States
+  - name: Ars Technica
+    url: https://feeds.arstechnica.com/arstechnica/index
+    region: americas
+    category: technology
+    country: United States
+  - name: The Verge
+    url: https://www.theverge.com/rss/index.xml
+    region: americas
+    category: technology
+    country: United States
+  - name: Wired
+    url: https://www.wired.com/feed/rss
+    region: americas
+    category: technology
+    country: United States
+  - name: Engadget
+    url: https://www.engadget.com/rss.xml
+    region: americas
+    category: technology
+    country: United States
+  - name: MIT Technology Review
+    url: https://www.technologyreview.com/feed/
+    region: americas
+    category: technology
+    country: United States
+  - name: Rest of World
+    url: https://restofworld.org/feed/latest/
+    region: global
+    category: technology
+    country: United States
+  - name: TechNode
+    url: https://technode.com/feed/
+    region: asia
+    category: technology
+    country: China
+
+  # ----------------------------------------------------------------- science
+  - name: BBC Science & Environment
+    url: https://feeds.bbci.co.uk/news/science_and_environment/rss.xml
+    region: global
+    category: science
+    country: United Kingdom
+  - name: The Guardian Science
+    url: https://www.theguardian.com/science/rss
+    region: global
+    category: science
+    country: United Kingdom
+  - name: Nature
+    url: https://www.nature.com/nature.rss
+    region: global
+    category: science
+    country: United Kingdom
+  - name: ScienceDaily
+    url: https://www.sciencedaily.com/rss/top/science.xml
+    region: global
+    category: science
+    country: United States
+  - name: Phys.org
+    url: https://phys.org/rss-feed/
+    region: global
+    category: science
+    country: United Kingdom
+  - name: Scientific American
+    url: https://www.scientificamerican.com/platform/syndication/rss/
+    region: global
+    category: science
+    country: United States
+  - name: New Scientist
+    url: https://www.newscientist.com/feed/home/
+    region: global
+    category: science
+    country: United Kingdom
+  - name: ScienceAlert
+    url: https://www.sciencealert.com/feed
+    region: global
+    category: science
+    country: Australia
+  - name: NASA
+    url: https://www.nasa.gov/feed/
+    region: global
+    category: science
+    country: United States
+  - name: ESA
+    url: https://www.esa.int/rssfeed/Our_Activities/Space_News
+    region: global
+    category: science
+    country: International
+  - name: Space.com
+    url: https://www.space.com/feeds/all
+    region: global
+    category: science
+    country: United States
+
+  # ------------------------------------------------------------------ health
+  - name: BBC Health
+    url: https://feeds.bbci.co.uk/news/health/rss.xml
+    region: global
+    category: health
+    country: United Kingdom
+  - name: World Health Organization
+    url: https://www.who.int/rss-feeds/news-english.xml
+    region: global
+    category: health
+    country: International
+  - name: STAT
+    url: https://www.statnews.com/feed/
+    region: global
+    category: health
+    country: United States
+  - name: Medical Xpress
+    url: https://medicalxpress.com/rss-feed/
+    region: global
+    category: health
+    country: United Kingdom
+
+  # ------------------------------------------------------------- environment
+  - name: The Guardian Environment
+    url: https://www.theguardian.com/uk/environment/rss
+    region: global
+    category: environment
+    country: United Kingdom
+  - name: Mongabay
+    url: https://news.mongabay.com/feed/
+    region: global
+    category: environment
+    country: United States
+  - name: Carbon Brief
+    url: https://www.carbonbrief.org/feed/
+    region: global
+    category: environment
+    country: United Kingdom
+  - name: Inside Climate News
+    url: https://insideclimatenews.org/feed/
+    region: global
+    category: environment
+    country: United States
+  - name: Yale Environment 360
+    url: https://e360.yale.edu/feed.xml
+    region: global
+    category: environment
+    country: United States
+
+  # ------------------------------------------------------------------- sport
+  - name: BBC Sport
+    url: https://feeds.bbci.co.uk/sport/rss.xml
+    region: global
+    category: sport
+    country: United Kingdom
+  - name: The Guardian Sport
+    url: https://www.theguardian.com/sport/rss
+    region: global
+    category: sport
+    country: United Kingdom
+  - name: ESPN
+    url: https://www.espn.com/espn/rss/news
+    region: global
+    category: sport
+    country: United States
+  - name: ESPN Soccer
+    url: https://www.espn.com/espn/rss/soccer/news
+    region: global
+    category: sport
+    country: United States
+  - name: Sky Sports
+    url: https://www.skysports.com/rss/12040
+    region: global
+    category: sport
+    country: United Kingdom
+  - name: ESPNcricinfo
+    url: https://www.espncricinfo.com/rss/content/story/feeds/0.xml
+    region: global
+    category: sport
+    country: India
+  - name: ABC Sport
+    url: https://www.abc.net.au/news/feed/2942460/rss.xml
+    region: oceania
+    category: sport
+    country: Australia
+
+  # ----------------------------------------------------------------- culture
+  - name: BBC Culture
+    url: https://www.bbc.com/culture/feed.rss
+    region: global
+    category: culture
+    country: United Kingdom
+  - name: BBC Entertainment & Arts
+    url: https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml
+    region: global
+    category: culture
+    country: United Kingdom
+  - name: The Guardian Culture
+    url: https://www.theguardian.com/culture/rss
+    region: global
+    category: culture
+    country: United Kingdom
+  - name: Variety
+    url: https://variety.com/feed/
+    region: americas
+    category: culture
+    country: United States
+  - name: The Hollywood Reporter
+    url: https://www.hollywoodreporter.com/feed/
+    region: americas
+    category: culture
+    country: United States
+  - name: Deadline
+    url: https://deadline.com/feed/
+    region: americas
+    category: culture
+    country: United States
+  - name: Rolling Stone
+    url: https://www.rollingstone.com/feed/
+    region: americas
+    category: culture
+    country: United States
+  - name: Billboard
+    url: https://www.billboard.com/feed/
+    region: americas
+    category: culture
+    country: United States

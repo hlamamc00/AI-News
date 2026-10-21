@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-head">
+  <p class="kicker">Archive</p>
+  <h1>Every story, by day</h1>
+  <p class="lede">{{ site.article_count }} articles so far.</p>
+</header>
+{% for day, items in days %}
+<section class="archive-day">
+  <h2>{{ day|fmt_date }}</h2>
+  <ul class="archive-list">
+    {% for a in items %}
+    <li>
+      <a href="{{ u(a.path) }}">{{ a.headline }}</a>
+      <span class="meta">{{ a.region|region_label }} · {{ a.category|category_label }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% else %}
+<p class="empty">No articles yet.</p>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,76 @@
+{
+  "slug": "government-websites-in-the-eu-and-canada-taken-offline-over-php",
+  "headline": "Government websites in the EU and Canada taken offline over PHP vulnerability",
+  "standfirst": "All websites using PHP should update to the latest security patch.",
+  "body_markdown": "All websites using PHP should update to the latest security patch. (Engadget)\n\n**Times of India Top Stories** adds: Multiple government portals and public institutions experienced outages due to the revelation of PHP vulnerabilities. In an immediate response, IT teams mobilized to patch critical servers and thwart potential malicious attacks.\n\n**Stuff** adds: The FBI and the National Security Agency warned Wednesday about the discovery of two “critical vulnerabilities” in a widely used programming language that powers websites and web applications.\n\n**Sky News** adds: Government and business websites around the world were taken down in a bid to protect organisations after a critical software update was issued over vulnerabilities in programming language.\n\n**BBC News Europe** adds: The vulnerabilities with PHP, a programming language widely used across the internet, have been described as the most significant ever found by AI.\n\nThis digest was assembled automatically from reporting by Engadget, Stuff, BBC News Europe, Times of India Top Stories, The Straits Times and Sky News. Follow the source links below for the full coverage.",
+  "key_points": [
+    "All websites using PHP should update to the latest security patch",
+    "Multiple government portals and public institutions experienced outages due to the revelation of PHP vulnerabilities",
+    "The FBI and the National Security Agency warned Wednesday about the discovery of two “critical vulnerabilities” in a widely used programming language that powers websites and web applications",
+    "Government and business websites around the world were taken down in a bid to protect organisations after a critical software update was issued over vulnerabilities in programming language",
+    "The vulnerabilities with PHP, a programming language widely used across the internet, have been described as the most significant ever found by AI"
+  ],
+  "region": "americas",
+  "category": "technology",
+  "tags": [
+    "websit",
+    "offline",
+    "taken",
+    "php",
+    "vulnerability"
+  ],
+  "confidence": "high",
+  "published_at": "2026-10-21T21:11:33+00:00",
+  "sources": [
+    {
+      "name": "Engadget",
+      "country": "United States",
+      "title": "Government websites in the EU and Canada taken offline over PHP vulnerability",
+      "url": "https://www.engadget.com/2293625/government-websites-in-the-eu-and-canada-taken-offline-over-php-vulnerability",
+      "published_at": "2026-10-21T20:56:47+00:00"
+    },
+    {
+      "name": "Times of India Top Stories",
+      "country": "India",
+      "title": "Decades-old flaw discovered in PHP forces govt websites to go offline globally",
+      "url": "https://timesofindia.indiatimes.com/technology/tech-news/decades-old-flaw-discovered-by-google-openai-ai-tools-forces-government-and-public-websites-to-go-offline-globally/articleshow/135097877.cms",
+      "published_at": "2026-10-21T17:42:36+00:00"
+    },
+    {
+      "name": "Stuff",
+      "country": "New Zealand",
+      "title": "‘Enormous’ potential impact: Websites taken offline worldwide after critical vulnerabilities found",
+      "url": "https://www.stuff.co.nz/world-news/361049393/some-websites-go-dark-operators-address-aidetected-fla",
+      "published_at": "2026-10-21T20:29:58+00:00"
+    },
+    {
+      "name": "Sky News",
+      "country": "United Kingdom",
+      "title": "Websites around the world taken down - as critical software update issued",
+      "url": "https://news.sky.com/story/websites-warned-to-install-critical-php-software-update-or-go-offline-13601917",
+      "published_at": "2026-10-21T13:28:00+00:00"
+    },
+    {
+      "name": "BBC News Europe",
+      "country": "United Kingdom",
+      "title": "Websites taken down worldwide as critical cyber-security update issued",
+      "url": "https://www.bbc.co.uk/news/articles/cmly0lg3w5x2o",
+      "published_at": "2026-10-21T19:54:57+00:00"
+    },
+    {
+      "name": "The Straits Times",
+      "country": "Singapore",
+      "title": "Explainer: What is PHP and why did it take government websites offline?",
+      "url": "https://www.straitstimes.com/world/explainer-what-is-php-and-why-did-it-take-government-websites-offline",
+      "published_at": "2026-10-21T15:51:28+00:00"
+    }
+  ],
+  "image": {
+    "url": "https://www.engadget.com/img/gallery/government-websites-in-eu-and-canada-taken-offline-over-php-vulnerability/l-intro-1792616156.jpg",
+    "credit": "Engadget"
+  },
+  "generated_by": "template",
+  "model": null,
+  "word_count": 170,
+  "id": "2026-10-21-government-websites-in-the-eu-and-canada-taken-offline-over-php"
+}

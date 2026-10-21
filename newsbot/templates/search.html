@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="page-head">
+  <p class="kicker">Search</p>
+  <h1>Search the archive</h1>
+  <form class="search-form" role="search" onsubmit="return false">
+    <label class="visually-hidden" for="q">Search</label>
+    <input id="q" type="search" placeholder="Headline, place, topic or source…" autocomplete="off" autofocus
+           data-search-index="{{ u('/search.json') }}">
+  </form>
+</header>
+<p class="meta" id="search-status">Type to search {{ site.article_count }} articles.</p>
+<ul class="archive-list" id="search-results"></ul>
+{% endblock %}
