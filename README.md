@@ -95,8 +95,9 @@ canonical links are absolute when deployed.
 1. Merge this branch into `main`.
 2. **Settings → Pages → Build and deployment → Source:** choose **GitHub Actions**.
 3. **Settings → Secrets and variables → Actions → New repository secret:**
-   `ANTHROPIC_API_KEY`. It is required: the workflow stops with a clear message
-   without it, because articles are only ever written by Claude.
+   `ANTHROPIC_API_KEY`. Without it the workflow writes nothing new (and shows a
+   warning) but still rebuilds and deploys the stored articles, because articles are
+   only ever written by Claude.
 4. **Actions → Publish → Run workflow** to publish the first batch, or wait for the
    schedule (every three hours, see `.github/workflows/publish.yml`).
 

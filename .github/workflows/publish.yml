@@ -4,7 +4,8 @@
 # One-time setup (see README):
 #   1. Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
 #   2. Settings -> Secrets and variables -> Actions -> New repository secret
-#      ANTHROPIC_API_KEY (required: articles are only written by Claude).
+#      ANTHROPIC_API_KEY (required to write articles: without it the run still
+#      rebuilds and deploys the stored articles but writes nothing new).
 #   3. Optional: repository variable NEWSBOT_SUBSCRIBE_URL for the newsletter form.
 name: Publish
 
@@ -49,15 +50,19 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Check the API key is configured
+        id: key
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           if [ -z "$ANTHROPIC_API_KEY" ]; then
-            echo "::error title=ANTHROPIC_API_KEY missing::Add it under Settings > Secrets and variables > Actions. Articles are only ever written by Claude, so nothing can be published without it."
-            exit 1
+            echo "has_key=false" >> "$GITHUB_OUTPUT"
+            echo "::warning title=ANTHROPIC_API_KEY missing::No new articles were written. Add the secret under Settings > Secrets and variables > Actions. Articles are only ever written by Claude, so nothing is published without it. The site was still rebuilt and deployed from the stored articles."
+          else
+            echo "has_key=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Fetch feeds and write new articles
+        if: steps.key.outputs.has_key == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           NEWSBOT_MAX_ARTICLES: ${{ github.event.inputs.limit }}
