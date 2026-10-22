@@ -1,0 +1,61 @@
+{
+  "slug": "abc-reporter-saves-man-from-sinking-car-in-floodwater-north-of",
+  "headline": "ABC reporter saves man from sinking car in floodwater north of Brisbane",
+  "standfirst": "ABC reporter Will Murray and another man swam out to the car and pulled the driver out of the vehicle.",
+  "body_markdown": "ABC reporter Will Murray and another man swam out to the car and pulled the driver out of the vehicle. (ABC News Just In)\n\n**Stuff** adds: An ABC reporter and a bystander pulled a driver from a sinking 4WD after it stalled on a flooded road north of Brisbane.\n\n**The Straits Times Asia** adds: SYDNEY, Oct 22 - An Australian television reporter and a bystander rescued a man from a car as it was engulfed by flood waters on Thursday, footage of the incident showed.\n\n**Al Jazeera** adds: Australian TV reporter rescues man from sinking car\n\nThis digest was assembled automatically from reporting by Al Jazeera, Stuff, The Straits Times Asia and ABC News Just In. Follow the source links below for the full coverage.",
+  "key_points": [
+    "ABC reporter Will Murray and another man swam out to the car and pulled the driver out of the vehicle",
+    "An ABC reporter and a bystander pulled a driver from a sinking 4WD after it stalled on a flooded road north of Brisbane",
+    "SYDNEY, Oct 22 - An Australian television reporter and a bystander rescued a man from a car as it was engulfed by flood waters on Thursday, footage of the incident showed",
+    "Australian TV reporter rescues man from sinking car"
+  ],
+  "region": "oceania",
+  "category": "environment",
+  "tags": [
+    "sink",
+    "car",
+    "reporter",
+    "man",
+    "rescu"
+  ],
+  "confidence": "high",
+  "published_at": "2026-10-22T04:50:45+00:00",
+  "sources": [
+    {
+      "name": "ABC News Just In",
+      "country": "Australia",
+      "title": "ABC reporter saves man from sinking car in floodwater north of Brisbane",
+      "url": "https://www.abc.net.au/news/2026-10-22/qld-abc-reporter-will-murray-rescues-man-from-floodwater/107296246",
+      "published_at": "2026-10-22T01:05:15+00:00"
+    },
+    {
+      "name": "Stuff",
+      "country": "New Zealand",
+      "title": "Watch: ABC reporter helps rescue driver from sinking car in Queensland floodwaters",
+      "url": "https://www.stuff.co.nz/world-news/361049771/abc-reporter-helps-rescue-driver-sinking-4wd-queensland-floodwaters",
+      "published_at": "2026-10-22T03:27:00+00:00"
+    },
+    {
+      "name": "The Straits Times Asia",
+      "country": "Singapore",
+      "title": "Australian TV reporter rescues man from sinking car during floods",
+      "url": "https://www.straitstimes.com/asia/australian-tv-reporter-rescues-man-from-sinking-car-during-floods",
+      "published_at": "2026-10-22T02:41:21+00:00"
+    },
+    {
+      "name": "Al Jazeera",
+      "country": "Qatar",
+      "title": "Australian TV reporter rescues man from sinking car",
+      "url": "https://www.aljazeera.com/video/newsfeed/2026/10/22/australian-tv-reporter-rescues-man-from-sinking-car?traffic_source=rss",
+      "published_at": "2026-10-22T04:19:33+00:00"
+    }
+  ],
+  "image": {
+    "url": "https://live-production.wcms.abc-cdn.net.au/3d89e60177843039dcb5f6f86233efec?impolicy=wcms_crop_resize&cropH=1080&cropW=1920&xPos=0&yPos=0&width=862&height=485",
+    "credit": "ABC News Just In"
+  },
+  "generated_by": "template",
+  "model": null,
+  "word_count": 125,
+  "id": "2026-10-22-abc-reporter-saves-man-from-sinking-car-in-floodwater-north-of"
+}

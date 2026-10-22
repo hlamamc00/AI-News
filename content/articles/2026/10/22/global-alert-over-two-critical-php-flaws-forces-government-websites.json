@@ -1,0 +1,61 @@
+{
+  "slug": "global-alert-over-two-critical-php-flaws-forces-government-websites",
+  "headline": "Global alert over two critical PHP flaws forces government websites offline",
+  "standfirst": "Governments and companies in several countries temporarily took websites offline this week over two critical vulnerabilities in PHP, the programming language that powers much of the internet, which allow an attacker to…",
+  "body_markdown": "Governments and companies in several countries temporarily took websites offline this week over two critical vulnerabilities in PHP, the programming language that powers much of the internet, which allow an attacker to run code remotely on servers without authenticating. PHP’s development team released fixes on Wednesday and urged users to update immediately. (MercoPress)\n\n**South China Morning Post** adds: Government agencies and companies around the world shut down websites Wednesday after two critical flaws came to light involving PHP, a programming language that is the basis for a large share of the internet. PHP sits underneath popular web design platforms, so the weaknesses potentially affect a vast range of websites, from online stores and news outlets to government services.\n\n**Global News** adds: Developers ​of the PHP programming language said they had identified two critical vulnerabilities, and urged ​users to update their sites as soon as a fix was released.\n\n**Financial Times** adds: Government security agencies warn companies to take immediate action after AI uncovers widespread vulnerabilities\n\nThis digest was assembled automatically from reporting by Financial Times, MercoPress, South China Morning Post and Global News. Follow the source links below for the full coverage.",
+  "key_points": [
+    "Governments and companies in several countries temporarily took websites offline this week over two critical vulnerabilities in PHP, the programming language that powers much of the internet, which…",
+    "Government agencies and companies around the world shut down websites Wednesday after two critical flaws came to light involving PHP, a programming language that is the basis for a large share of…",
+    "Developers ​of the PHP programming language said they had identified two critical vulnerabilities, and urged ​users to update their sites as soon as a fix was released",
+    "Government security agencies warn companies to take immediate action after AI uncovers widespread vulnerabilities"
+  ],
+  "region": "americas",
+  "category": "world",
+  "tags": [
+    "websit",
+    "offline",
+    "flaw",
+    "critical",
+    "php"
+  ],
+  "confidence": "high",
+  "published_at": "2026-10-22T04:50:45+00:00",
+  "sources": [
+    {
+      "name": "MercoPress",
+      "country": "Uruguay",
+      "title": "Global alert over two critical PHP flaws forces government websites offline",
+      "url": "https://en.mercopress.com/2026/10/22/global-alert-over-two-critical-php-flaws-forces-government-websites-offline",
+      "published_at": "2026-10-22T02:14:00+00:00"
+    },
+    {
+      "name": "South China Morning Post",
+      "country": "Hong Kong",
+      "title": "Websites pulled offline worldwide as AI finds critical security flaws",
+      "url": "https://www.scmp.com/news/world/article/3371694/websites-go-dark-worldwide-ai-exposes-critical-security-flaws",
+      "published_at": "2026-10-21T22:10:59+00:00"
+    },
+    {
+      "name": "Global News",
+      "country": "Canada",
+      "title": "Ottawa taking down some federal websites over critical global vulnerability",
+      "url": "https://globalnews.ca/news/12110881/government-sites-go-dark-vuln-in-code",
+      "published_at": "2026-10-21T13:48:03+00:00"
+    },
+    {
+      "name": "Financial Times",
+      "country": "United Kingdom",
+      "title": "Websites taken offline in race to patch PHP security flaw",
+      "url": "https://www.ft.com/content/d438af1e-a48c-4aeb-8c84-00cdb5e741e3?syn-25a6b1a6=1",
+      "published_at": "2026-10-22T04:28:04+00:00"
+    }
+  ],
+  "image": {
+    "url": "https://en.mercopress.com/data/cache/noticias/111851/100x80/php.jpg",
+    "credit": "MercoPress"
+  },
+  "generated_by": "template",
+  "model": null,
+  "word_count": 192,
+  "id": "2026-10-22-global-alert-over-two-critical-php-flaws-forces-government-websites"
+}
