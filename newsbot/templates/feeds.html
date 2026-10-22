@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block description %}RSS feeds for every region and topic.{% endblock %}
+{% block content %}
+<header class="page-head">
+  <p class="kicker">Feeds</p>
+  <h1>RSS feeds</h1>
+  <p class="lede">Follow the whole site, a single region or a single topic in any feed reader.</p>
+</header>
+<section class="section">
+  <h2 class="section-title">Everything</h2>
+  <ul class="archive-list">
+    <li><a href="{{ u('/feed.xml') }}">All stories</a> <span class="meta">{{ abs_url('/feed.xml') }}</span></li>
+    {% if newsletter_enabled %}<li><a href="{{ u('/newsletter/feed.xml') }}">Daily briefing</a> <span class="meta">{{ abs_url('/newsletter/feed.xml') }}</span></li>{% endif %}
+  </ul>
+</section>
+<section class="section">
+  <h2 class="section-title">Regions</h2>
+  <ul class="archive-list">
+    {% for r in regions %}<li><a href="{{ u(r.path ~ 'feed.xml') }}">{{ r.label }}</a> <span class="meta">{{ abs_url(r.path ~ 'feed.xml') }}</span></li>{% endfor %}
+  </ul>
+</section>
+<section class="section">
+  <h2 class="section-title">Topics</h2>
+  <ul class="archive-list">
+    {% for t in topics %}<li><a href="{{ u(t.path ~ 'feed.xml') }}">{{ t.label }}</a> <span class="meta">{{ abs_url(t.path ~ 'feed.xml') }}</span></li>{% endfor %}
+  </ul>
+</section>
+{% endblock %}

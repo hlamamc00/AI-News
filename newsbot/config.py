@@ -16,6 +16,9 @@ CONFIG_DIR = ROOT / "config"
 CONTENT_DIR = ROOT / "content"
 ARTICLES_DIR = CONTENT_DIR / "articles"
 STATE_FILE = CONTENT_DIR / "state.json"
+# Local preview output (template writer). Git-ignored and never deployed.
+PREVIEW_DIR = CONTENT_DIR / "preview"
+PREVIEW_STATE_FILE = CONTENT_DIR / "preview-state.json"
 TEMPLATES_DIR = Path(__file__).resolve().parent / "templates"
 
 
@@ -83,6 +86,11 @@ class Settings:
     @property
     def user_agent(self) -> str:
         return str(self._get("fetch", "user_agent", default="AINewsDeskBot/1.0"))
+
+    @property
+    def api_user_agent(self) -> str:
+        """Descriptive agent for public APIs such as Wikimedia, which throttle browser-style agents."""
+        return str(self._get("fetch", "api_user_agent", default="AINewsDeskBot/1.0 (+https://github.com/hlamamc00/AI-News)"))
 
     # --- extract
     @property
@@ -158,6 +166,10 @@ class Settings:
         return int(self._get("writer", "max_tokens", default=16000))
 
     @property
+    def max_verbatim_ratio(self) -> float:
+        return float(self._get("writer", "max_verbatim_ratio", default=0.10))
+
+    @property
     def writer_workers(self) -> int:
         return int(self._get("writer", "workers", default=3))
 
@@ -182,9 +194,69 @@ class Settings:
     def feed_items(self) -> int:
         return int(self._get("build", "feed_items", default=50))
 
+    # --- images
     @property
-    def show_images(self) -> bool:
-        return bool(self._get("build", "show_images", default=True))
+    def images_enabled(self) -> bool:
+        return bool(self._get("images", "enabled", default=True))
+
+    @property
+    def images_min_width(self) -> int:
+        return int(self._get("images", "min_width", default=1000))
+
+    @property
+    def images_thumb_width(self) -> int:
+        return int(self._get("images", "thumb_width", default=960))
+
+    @property
+    def images_delay(self) -> float:
+        return float(self._get("images", "delay_seconds", default=1.0))
+
+    @property
+    def images_timeout(self) -> float:
+        return float(self._get("images", "timeout_seconds", default=20))
+
+    # --- newsletter
+    @property
+    def newsletter_enabled(self) -> bool:
+        return bool(self._get("newsletter", "enabled", default=True))
+
+    @property
+    def newsletter_hour_utc(self) -> int:
+        return int(self._get("newsletter", "edition_hour_utc", default=6)) % 24
+
+    @property
+    def newsletter_min_articles(self) -> int:
+        return int(self._get("newsletter", "min_articles", default=6))
+
+    @property
+    def newsletter_top_stories(self) -> int:
+        return int(self._get("newsletter", "top_stories", default=5))
+
+    @property
+    def newsletter_per_region(self) -> int:
+        return int(self._get("newsletter", "per_region", default=3))
+
+    @property
+    def newsletter_archive_items(self) -> int:
+        return int(self._get("newsletter", "archive_items", default=60))
+
+    @property
+    def subscribe_url(self) -> str:
+        env = os.environ.get("NEWSBOT_SUBSCRIBE_URL")
+        return (env or str(self._get("newsletter", "subscribe_url", default=""))).strip()
+
+    @property
+    def subscribe_email_field(self) -> str:
+        return str(self._get("newsletter", "subscribe_email_field", default="email"))
+
+    @property
+    def subscribe_method(self) -> str:
+        return str(self._get("newsletter", "subscribe_method", default="post")).lower()
+
+    @property
+    def subscribe_hidden(self) -> dict[str, str]:
+        hidden = self._get("newsletter", "subscribe_hidden_fields", default={}) or {}
+        return {str(k): str(v) for k, v in dict(hidden).items()}
 
     def _get(self, *keys: str, default: Any = None) -> Any:
         node: Any = self.raw

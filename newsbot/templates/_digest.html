@@ -1,0 +1,30 @@
+{# Email-safe fragment: inline styles only, absolute links. Used for the web page, the feed and email providers. #}
+<div style="max-width:620px;margin:0 auto;font-family:Georgia,'Times New Roman',serif;color:#1a1a1a;line-height:1.5;">
+  <p style="font:700 12px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#b3261e;margin:0 0 6px;">{{ edition.date_label }} · Daily briefing</p>
+  <h1 style="font-size:28px;line-height:1.15;margin:0 0 6px;"><a href="{{ abs_url(edition.top[0].path) }}" style="color:#1a1a1a;text-decoration:none;">{{ edition.top[0].headline }}</a></h1>
+  <p style="font:15px/1.5 Arial,Helvetica,sans-serif;color:#5d5a53;margin:0 0 22px;">{{ edition.count }} stories drawn from news organisations on every continent, written automatically. Each story links to the reports behind it.</p>
+
+  <h2 style="font:700 14px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.06em;text-transform:uppercase;border-top:3px double #e6e2da;padding-top:14px;margin:0 0 12px;">Top stories</h2>
+  {% for a in edition.top %}
+  <div style="margin:0 0 18px;">
+    <h3 style="font-size:20px;line-height:1.25;margin:0 0 4px;"><a href="{{ abs_url(a.path) }}" style="color:#1a1a1a;">{{ a.headline }}</a></h3>
+    <p style="font:15px/1.5 Arial,Helvetica,sans-serif;margin:0 0 4px;">{{ a.standfirst }}</p>
+    {% if a.differences %}<p style="font:14px/1.5 Arial,Helvetica,sans-serif;color:#5d5a53;margin:0 0 4px;"><strong>Where the reports differ:</strong> {{ a.differences[0].point }}</p>{% endif %}
+    <p style="font:12px/1.4 Arial,Helvetica,sans-serif;color:#5d5a53;margin:0;">{{ a.region|region_label }} · {{ a.category|category_label }} · {{ a.source_names[:3]|join(', ') }}{% if a.source_names|length > 3 %} +{{ a.source_names|length - 3 }}{% endif %}</p>
+  </div>
+  {% endfor %}
+
+  {% for slug, label, items in edition.regions %}
+  <h2 style="font:700 14px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.06em;text-transform:uppercase;border-top:1px solid #e6e2da;padding-top:14px;margin:22px 0 10px;">{{ label }}</h2>
+  {% for a in items %}
+  <p style="margin:0 0 12px;"><a href="{{ abs_url(a.path) }}" style="color:#1a1a1a;font-weight:700;">{{ a.headline }}</a><br>
+    <span style="font:14px/1.5 Arial,Helvetica,sans-serif;color:#5d5a53;">{{ a.standfirst }}</span></p>
+  {% endfor %}
+  {% endfor %}
+
+  <p style="font:13px/1.5 Arial,Helvetica,sans-serif;color:#5d5a53;border-top:1px solid #e6e2da;padding-top:14px;margin:26px 0 0;">
+    {{ site.title }} is an automated news briefing. Articles are written by software from published reports and can contain mistakes, so read the sources before relying on them.
+    <a href="{{ abs_url('/newsletter/' ~ edition.key ~ '/') }}" style="color:#5d5a53;">View in browser</a> ·
+    <a href="{{ abs_url('/about/') }}" style="color:#5d5a53;">How it works</a>
+  </p>
+</div>

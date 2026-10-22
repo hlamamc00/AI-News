@@ -1,0 +1,9 @@
+<p>{{ article.standfirst }}</p>
+{% if article.image %}<p><img src="{{ article.image.url }}" alt="{{ article.image.alt }}" width="{{ article.image.width }}" height="{{ article.image.height }}"><br>
+<small>Illustrative image: {{ article.image.title }} by {{ article.image.author }}, {{ article.image.license }}, via {{ article.image.source }}</small></p>{% endif %}
+{{ article.body_markdown|md|safe }}
+{% if article.key_points %}<h3>Key points</h3><ul>{% for p in article.key_points %}<li>{{ p }}</li>{% endfor %}</ul>{% endif %}
+{% if article.differences %}<h3>Where the reports differ</h3><ul>{% for d in article.differences %}<li>{{ d.point }}</li>{% endfor %}</ul>{% endif %}
+<h3>Sources</h3>
+<ol>{% for s in article.sources %}<li><a href="{{ s.url }}">{{ s.title }}</a> ({{ s.name }})</li>{% endfor %}</ol>
+<p><small>Written automatically from the reports above and can contain mistakes. <a href="{{ abs_url(article.path) }}">Read it on {{ site.title }}</a>.</small></p>

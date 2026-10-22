@@ -24,6 +24,9 @@ fetch:
   timeout_seconds: 20
   workers: 16
   user_agent: "Mozilla/5.0 (compatible; AINewsDeskBot/1.0; +https://github.com/hlamamc00/AI-News)"
+  # Wikimedia and other public APIs ask for a descriptive agent with a contact URL
+  # and throttle browser-style ones. Put your own repository or site here.
+  api_user_agent: "AINewsDeskBot/1.0 (+https://github.com/hlamamc00/AI-News)"
 
 extract:
   # Fetch the full text of the lead source articles (respecting robots.txt)
@@ -58,9 +61,13 @@ cluster:
   threshold: 0.45
 
 writer:
-  # auto     -> use Claude when ANTHROPIC_API_KEY is set, otherwise template
-  # claude   -> require Claude (fails loudly if no key)
-  # template -> never call an LLM; stitch attributed summaries together
+  # auto / claude -> articles are written by Claude; the run stops with a clear
+  #                  error if ANTHROPIC_API_KEY is missing. A story Claude cannot
+  #                  write (refusal, too close to the sources) is skipped, never
+  #                  published as a copy of the publishers' text.
+  # template      -> local PREVIEW only: quotes publisher summaries so you can see
+  #                  the layout without an API key. Output goes to content/preview/
+  #                  (git-ignored) and is never committed or deployed.
   mode: auto
   model: claude-opus-5-5
   # low | medium | high | xhigh | max
@@ -70,6 +77,9 @@ writer:
   workers: 3
   # Sources passed to the writer per story.
   max_sources: 6
+  # Reject a draft when more than this share of its eight-word phrases appear
+  # word for word in the sources (the writer gets one second try first).
+  max_verbatim_ratio: 0.10
 
 build:
   output_dir: site
@@ -77,5 +87,36 @@ build:
   home_items: 30
   section_items: 60
   feed_items: 50
-  # Show publisher thumbnails from the RSS feeds (hot-linked, lazy loaded).
-  show_images: true
+
+images:
+  # Illustrations come from Wikimedia Commons only, and only files under
+  # CC0, public-domain, CC BY or CC BY-SA licences. They are captioned as
+  # illustrative and credited on the article page and on /credits/.
+  # Publisher photos from the RSS feeds are never used.
+  enabled: true
+  min_width: 1000
+  thumb_width: 960
+  timeout_seconds: 20
+  # Pause between Commons lookups, to stay well inside their rate limits.
+  delay_seconds: 1.0
+
+newsletter:
+  enabled: true
+  # A daily briefing covers the 24 hours before this UTC hour and is published
+  # once that hour has passed (the first workflow run after it).
+  edition_hour_utc: 6
+  # Skip a day with fewer articles than this.
+  min_articles: 6
+  top_stories: 5
+  per_region: 3
+  archive_items: 60
+  # Email signup. Paste the form action URL from your email provider (Buttondown,
+  # Mailchimp, MailerLite, Brevo, Kit ...). Leave empty to hide the signup form.
+  # In GitHub Actions you can set the repository variable NEWSBOT_SUBSCRIBE_URL
+  # instead. The briefing is also published as /newsletter/feed.xml so that a
+  # provider's "RSS to email" campaign can send it automatically.
+  subscribe_url: ""
+  subscribe_email_field: email
+  subscribe_method: post
+  # Extra hidden inputs some providers require, e.g. {embed: "1"}.
+  subscribe_hidden_fields: {}

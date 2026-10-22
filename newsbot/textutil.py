@@ -205,3 +205,24 @@ def clean_title(title: str) -> str:
     title = strip_html(title)
     title = re.sub(r"\s+[-|–—]\s+[A-Z][\w .&']{2,40}$", "", title)
     return title.strip()
+
+
+def _words(text: str) -> list[str]:
+    return re.findall(r"[a-z0-9]+", text.lower().replace("’", "'"))
+
+
+def verbatim_ratio(body: str, source_texts: list[str], n: int = 8) -> float:
+    """Share of the body's n-word phrases that appear word for word in any source.
+
+    Paraphrase scores near zero; copied sentences score high. A few short quotes
+    barely move it.
+    """
+    words = _words(body)
+    if len(words) < n:
+        return 0.0
+    grams = {tuple(words[i : i + n]) for i in range(len(words) - n + 1)}
+    source_grams: set[tuple[str, ...]] = set()
+    for text in source_texts:
+        sw = _words(text)
+        source_grams.update(tuple(sw[i : i + n]) for i in range(len(sw) - n + 1))
+    return len(grams & source_grams) / len(grams)

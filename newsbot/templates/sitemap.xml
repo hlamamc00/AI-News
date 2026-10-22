@@ -7,6 +7,10 @@
   {% endfor %}
   {% for t in topics %}<url><loc>{{ abs_url(t.path) }}</loc><changefreq>hourly</changefreq></url>
   {% endfor %}
+  <url><loc>{{ abs_url('/feeds/') }}</loc></url>
+  {% if editions %}<url><loc>{{ abs_url('/newsletter/') }}</loc><changefreq>daily</changefreq></url>
+  {% for e in editions %}<url><loc>{{ abs_url(e.path) }}</loc><lastmod>{{ e.key }}</lastmod></url>
+  {% endfor %}{% endif %}
   {% for a in articles %}<url><loc>{{ abs_url(a.path) }}</loc><lastmod>{{ a.published_at[:10] }}</lastmod></url>
   {% endfor %}
 </urlset>

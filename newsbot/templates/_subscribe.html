@@ -1,0 +1,14 @@
+{% macro subscribe(heading='Subscribe to the daily briefing') %}
+{% if site.subscribe.url %}
+<form class="subscribe" action="{{ site.subscribe.url }}" method="{{ site.subscribe.method }}"{% if site.subscribe.method == 'post' %} target="_blank" rel="noopener"{% endif %}>
+  <h2>{{ heading }}</h2>
+  <p>One email a day. Unsubscribe any time.</p>
+  <label class="visually-hidden" for="subscribe-email">Email address</label>
+  <div class="subscribe-row">
+    <input id="subscribe-email" type="email" name="{{ site.subscribe.email_field }}" placeholder="you@example.com" required autocomplete="email">
+    {% for name, value in site.subscribe.hidden.items() %}<input type="hidden" name="{{ name }}" value="{{ value }}">{% endfor %}
+    <button type="submit">Subscribe</button>
+  </div>
+</form>
+{% endif %}
+{% endmacro %}

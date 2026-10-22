@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% from "_subscribe.html" import subscribe %}
+{% block description %}{{ edition.subject }}{% endblock %}
+{% block content %}
+<p class="meta"><a href="{{ u('/newsletter/') }}">All briefings</a> · <a href="{{ u('/newsletter/' ~ edition.key ~ '/index.txt') }}">Plain text</a></p>
+<div class="digest-frame">{{ digest_html|safe }}</div>
+{{ subscribe(heading='Get the briefing by email') }}
+{% endblock %}

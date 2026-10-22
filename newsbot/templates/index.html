@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from "_card.html" import card %}
+{% from "_subscribe.html" import subscribe %}
 {% block content %}
 {% if not hero %}
 <section class="empty">
@@ -8,9 +9,9 @@
 </section>
 {% else %}
 <section class="hero">
-  {% if site.show_images and hero.image %}
-  <a class="hero-media" href="{{ u(hero.path) }}">
-    <img src="{{ hero.image.url }}" alt="" loading="eager" referrerpolicy="no-referrer" data-hide-on-error>
+  {% if hero.image %}
+  <a class="hero-media" href="{{ u(hero.path) }}" title="Illustrative image: {{ hero.image.author }}, {{ hero.image.license }}, via {{ hero.image.source }}">
+    <img src="{{ hero.image.url }}" alt="{{ hero.image.alt }}" loading="eager" referrerpolicy="no-referrer" data-hide-on-error>
   </a>
   {% endif %}
   <div class="hero-body">
@@ -34,6 +35,8 @@
     {% for a in articles %}{{ card(a) }}{% endfor %}
   </div>
 </section>
+
+{{ subscribe() }}
 
 {% if rails %}
 <section class="section">

@@ -7,6 +7,8 @@
   <meta name="description" content="{% block description %}{{ site.tagline }}{% endblock %}">
   {% block head %}{% endblock %}
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ u('/feed.xml') }}">
+  {% if newsletter_enabled %}<link rel="alternate" type="application/rss+xml" title="{{ site.title }} daily briefing" href="{{ u('/newsletter/feed.xml') }}">{% endif %}
+  {% if feed_path is defined %}<link rel="alternate" type="application/rss+xml" title="{{ site.title }}: {{ feed_label }}" href="{{ u(feed_path) }}">{% endif %}
   <link rel="stylesheet" href="{{ u('/static/style.css') }}">
   <link rel="icon" href="{{ u('/static/favicon.svg') }}" type="image/svg+xml">
 </head>
@@ -23,6 +25,7 @@
     <nav class="nav nav-topics" aria-label="Topics">
       {% for t in topics %}<a href="{{ u(t.path) }}">{{ t.label }}</a>{% endfor %}
       <a href="{{ u('/archive/') }}">Archive</a>
+      {% if newsletter_enabled %}<a href="{{ u('/newsletter/') }}">Newsletter</a>{% endif %}
     </nav>
   </div>
 </header>
@@ -34,12 +37,14 @@
 <footer class="footer">
   <div class="container">
     <p><strong>{{ site.title }}</strong> is an automated news site. Every article is written by software from
-      reports published by {{ site.source_count }} news organisations and links to its sources.
+      reports published by news organisations around the world and links to its sources.
       Please read the originals before relying on anything here.</p>
     <p>
       <a href="{{ u('/about/') }}">How it works</a> ·
-      <a href="{{ u('/feed.xml') }}">RSS</a> ·
+      <a href="{{ u('/feeds/') }}">RSS feeds</a> ·
+      {% if newsletter_enabled %}<a href="{{ u('/newsletter/') }}">Newsletter</a> ·{% endif %}
       <a href="{{ u('/archive/') }}">Archive</a> ·
+      <a href="{{ u('/credits/') }}">Image credits</a> ·
       Updated {{ site.generated_at|fmt_datetime }}
     </p>
   </div>

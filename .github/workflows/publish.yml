@@ -4,7 +4,8 @@
 # One-time setup (see README):
 #   1. Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
 #   2. Settings -> Secrets and variables -> Actions -> New repository secret
-#      ANTHROPIC_API_KEY (optional; without it the template writer is used).
+#      ANTHROPIC_API_KEY (required: articles are only written by Claude).
+#   3. Optional: repository variable NEWSBOT_SUBSCRIBE_URL for the newsletter form.
 name: Publish
 
 on:
@@ -47,6 +48,15 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Check the API key is configured
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error title=ANTHROPIC_API_KEY missing::Add it under Settings > Secrets and variables > Actions. Articles are only ever written by Claude, so nothing can be published without it."
+            exit 1
+          fi
+
       - name: Fetch feeds and write new articles
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -73,6 +83,8 @@ jobs:
       - name: Build the site
         env:
           NEWSBOT_BASE_URL: ${{ steps.pages.outputs.base_url }}
+          # Optional: your email provider's signup form action URL (Settings > Variables).
+          NEWSBOT_SUBSCRIBE_URL: ${{ vars.NEWSBOT_SUBSCRIBE_URL }}
         run: python -m newsbot build
 
       - uses: actions/upload-pages-artifact@v3

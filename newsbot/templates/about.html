@@ -11,17 +11,23 @@
       scheduled job runs every few hours and does the following:</p>
     <ol>
       <li><strong>Reads the feeds.</strong> It downloads the public RSS and Atom feeds of
-        {{ site.source_count }} news organisations on every continent.</li>
+        {{ site.source_count }} feeds from news organisations on every continent.</li>
       <li><strong>Finds the stories.</strong> Headlines that describe the same event are grouped
         together, so one story can draw on several outlets in several countries.</li>
       <li><strong>Reads the originals.</strong> For the lead sources it fetches the article page
         (respecting each site's <code>robots.txt</code>) so the writer has more than a blurb to work from.</li>
       <li><strong>Writes.</strong> A language model writes an original article from those reports,
         with a strict instruction to use only facts that appear in the sources, to attribute them, and to
-        say when sources disagree. When no model is configured, the site instead publishes a clearly
-        labelled digest of the publishers' own summaries.</li>
+        say when sources disagree. Each draft is checked for copied wording and rejected if it echoes
+        the sources too closely. A story that cannot be written safely is skipped, never copied.</li>
+      <li><strong>Compares.</strong> Where the reports give different figures or accounts, the article
+        has a "Where the reports differ" box that names the outlets.</li>
+      <li><strong>Illustrates.</strong> Photos come from Wikimedia Commons under open licences, show a
+        place or subject related to the story rather than the event, are captioned as illustrative, and
+        are credited on the <a href="{{ u('/credits/') }}">credits page</a>.</li>
       <li><strong>Publishes.</strong> The article is saved with links to every source it used, and the
-        site is rebuilt.</li>
+        site, its <a href="{{ u('/feeds/') }}">RSS feeds</a> and the daily
+        <a href="{{ u('/newsletter/') }}">briefing</a> are rebuilt.</li>
     </ol>
     <h2>What this means for you</h2>
     <p>The articles here are machine-written summaries of other people's reporting. They can contain

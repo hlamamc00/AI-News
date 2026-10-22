@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% from "_subscribe.html" import subscribe %}
+{% block description %}A daily briefing of the top stories from around the world, with links to every source.{% endblock %}
+{% block content %}
+<header class="page-head">
+  <p class="kicker">Newsletter</p>
+  <h1>The daily briefing</h1>
+  <p class="lede">The day's biggest stories from every region, in one email-sized read, with a link to the sources behind each one.</p>
+</header>
+{{ subscribe(heading='Get the briefing by email') }}
+<p class="meta">Prefer a feed reader? Use the <a href="{{ u('/newsletter/feed.xml') }}">briefing feed</a> or the <a href="{{ u('/feeds/') }}">other feeds</a>.</p>
+<section class="section">
+  <h2 class="section-title">Recent editions</h2>
+  {% if editions %}
+  <ul class="archive-list">
+    {% for e in editions %}
+    <li><a href="{{ u(e.path) }}">{{ e.date_label }}: {{ e.top[0].headline }}</a>
+      <span class="meta">{{ e.count }} stories</span></li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="empty">The first briefing appears after enough stories have been published.</p>
+  {% endif %}
+</section>
+{% endblock %}

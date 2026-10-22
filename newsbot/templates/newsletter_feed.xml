@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+  <title>{{ site.title }} daily briefing</title>
+  <link>{{ abs_url('/newsletter/') }}</link>
+  <description>The day's top stories from every region, once a day.</description>
+  <language>{{ site.language }}</language>
+  <lastBuildDate>{{ site.generated_at|rfc822 }}</lastBuildDate>
+  <atom:link href="{{ abs_url('/newsletter/feed.xml') }}" rel="self" type="application/rss+xml"/>
+  {% for e in editions %}
+  <item>
+    <title>{{ e.subject }}</title>
+    <link>{{ abs_url(e.path) }}</link>
+    <guid isPermaLink="true">{{ abs_url(e.path) }}</guid>
+    <pubDate>{{ e.end|rfc822 }}</pubDate>
+    <dc:creator>{{ site.byline }}</dc:creator>
+    <description>{% for a in e.top[:3] %}{{ a.headline }}{% if not loop.last %}; {% endif %}{% endfor %}</description>
+    <content:encoded><![CDATA[{{ e.html|cdata }}]]></content:encoded>
+  </item>
+  {% endfor %}
+</channel>
+</rss>

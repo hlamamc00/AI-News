@@ -1,0 +1,24 @@
+{{ site.title }} daily briefing, {{ edition.date_label }}
+{{ "=" * 60 }}
+
+TOP STORIES
+{% for a in edition.top %}
+
+{{ a.headline }}
+{{ a.standfirst }}
+{% if a.differences %}Where the reports differ: {{ a.differences[0].point }}
+{% endif %}Sources: {{ a.source_names|join(', ') }}
+{{ abs_url(a.path) }}
+{% endfor %}
+{% for slug, label, items in edition.regions %}
+
+{{ label|upper }}
+{% for a in items %}
+- {{ a.headline }}
+  {{ abs_url(a.path) }}
+{% endfor %}
+{% endfor %}
+
+--
+{{ site.title }} is an automated news briefing written from published reports. It can contain mistakes; read the sources before relying on it.
+{{ abs_url('/about/') }}

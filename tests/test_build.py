@@ -11,7 +11,11 @@ def _article(slug, region="europe", category="world", day="21"):
         key_points=["one", "two"], region=region, category=category, tags=["t1"], confidence="high",
         published_at=f"2026-10-{day}T10:00:00+00:00",
         sources=[{"name": "BBC", "country": "UK", "title": "Src", "url": "https://bbc.example/x", "published_at": "2026-10-21T09:00:00+00:00"}],
-        image={"url": "https://img.example/a.jpg", "credit": "BBC"},
+        image={"url": "https://upload.example/a.jpg", "width": 960, "height": 560, "alt": "Illustrative photo: Town hall",
+               "title": "Town hall", "author": "Jane Doe", "license": "CC BY-SA 4.0",
+               "license_url": "https://creativecommons.org/licenses/by-sa/4.0", "page_url": "https://commons.example/Town_hall",
+               "source": "Wikimedia Commons"},
+        differences=[{"outlets": ["BBC"], "point": "BBC reports a different figure from the other outlets."}],
     )
 
 
@@ -54,3 +58,35 @@ def test_default_config_builds_root_relative_links(tmp_path, monkeypatch):
     out = build_site(settings, [_article("first")], tmp_path / "site")
     index = (out / "index.html").read_text()
     assert 'href="/static/style.css"' in index and "/AI-News/" not in index
+
+
+def test_article_page_shows_credit_differences_and_no_publisher_image(tmp_path):
+    out = build_site(Settings({"site": {"base_url": "https://x.example"}}), [_article("first")], tmp_path / "site")
+    html = (out / "articles/2026/10/21/first/index.html").read_text()
+    assert "Illustrative image, not from the event." in html and "Jane Doe" in html and "CC BY-SA 4.0" in html
+    assert "Where the reports differ" in html and "different figure" in html
+    credits = (out / "credits/index.html").read_text()
+    assert "Town hall" in credits and "Wikimedia Commons" in credits
+
+
+def test_section_feeds_and_feeds_page(tmp_path):
+    arts = [_article("first", region="asia", category="sport"), _article("second", region="europe")]
+    out = build_site(Settings({"site": {"base_url": "https://x.example"}}), arts, tmp_path / "site")
+    asia = (out / "region/asia/feed.xml").read_text()
+    assert "Headline first" in asia and "Headline second" not in asia
+    assert "<content:encoded><![CDATA[" in asia and "Where the reports differ" in asia and "<media:content" in asia
+    assert "Headline first" in (out / "topic/sport/feed.xml").read_text()
+    assert 'href="/region/asia/feed.xml"' in (out / "region/asia/index.html").read_text()
+    page = (out / "feeds/index.html").read_text()
+    assert "https://x.example/region/asia/feed.xml" in page and "https://x.example/newsletter/feed.xml" in page
+
+
+def test_subscribe_form_only_when_configured(tmp_path):
+    off = build_site(Settings({}), [_article("a")], tmp_path / "off")
+    assert "subscribe-email" not in (off / "index.html").read_text()
+    cfg = {"newsletter": {"subscribe_url": "https://provider.example/embed/me", "subscribe_email_field": "EMAIL",
+                          "subscribe_hidden_fields": {"embed": "1"}}}
+    on = build_site(Settings(cfg), [_article("a")], tmp_path / "on")
+    for page in ("index.html", "articles/2026/10/21/a/index.html", "newsletter/index.html"):
+        html = (on / page).read_text()
+        assert 'action="https://provider.example/embed/me"' in html and 'name="EMAIL"' in html and 'name="embed"' in html

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block description %}Credits for the illustrative images used on this site.{% endblock %}
+{% block content %}
+<header class="page-head">
+  <p class="kicker">Credits</p>
+  <h1>Image credits</h1>
+  <p class="lede">Illustrations are openly licensed photographs from Wikimedia Commons. They show a place, building or subject related to a story, not the event itself.</p>
+</header>
+{% if credits %}
+<ul class="archive-list">
+  {% for a in credits %}
+  <li>
+    <a href="{{ u(a.path) }}">{{ a.headline }}</a>
+    <span class="meta"><a href="{{ a.image.page_url }}" rel="noopener">{{ a.image.title }}</a> by {{ a.image.author }},
+      {% if a.image.license_url %}<a href="{{ a.image.license_url }}" rel="noopener">{{ a.image.license }}</a>{% else %}{{ a.image.license }}{% endif %}, via {{ a.image.source }}</span>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty">No images are in use yet.</p>
+{% endif %}
+{% endblock %}

@@ -13,9 +13,11 @@ from urllib.parse import urlsplit
 
 import markdown
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from markupsafe import Markup
 
 from .article import Article
 from .config import ROOT, TEMPLATES_DIR, Settings, load_sources
+from .newsletter import build_editions
 from .store import load_articles
 from .taxonomy import CATEGORIES, CATEGORY_LABELS, REGION_LABELS, REGIONS
 
@@ -51,6 +53,11 @@ def _as_dt(value: datetime | str) -> datetime:
     return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
 
 
+def _cdata(html: str) -> Markup:
+    """Make *html* safe to place inside a CDATA section."""
+    return Markup(str(html).replace("]]>", "]]]]><![CDATA[>"))
+
+
 def _write(path: Path, content: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
@@ -82,6 +89,8 @@ def build_site(settings: Settings, articles: list[Article] | None = None, output
     env.filters["rfc822"] = _rfc822
     env.filters["region_label"] = lambda slug: REGION_LABELS.get(slug, slug)
     env.filters["category_label"] = lambda slug: CATEGORY_LABELS.get(slug, slug)
+    env.filters["cdata"] = _cdata
+    env.filters["feed_html"] = lambda a: _cdata(env.get_template("_feed_item.html").render(article=a))
     env.globals.update(
         site={
             "title": settings.site_title,
@@ -93,8 +102,14 @@ def build_site(settings: Settings, articles: list[Article] | None = None, output
             "year": now.year,
             "article_count": len(articles),
             "source_count": len(sources),
-            "show_images": settings.show_images,
+            "subscribe": {
+                "url": settings.subscribe_url,
+                "email_field": settings.subscribe_email_field,
+                "method": settings.subscribe_method if settings.subscribe_method in ("get", "post") else "post",
+                "hidden": settings.subscribe_hidden,
+            },
         },
+        newsletter_enabled=settings.newsletter_enabled,
         regions=[{"slug": r, "label": REGION_LABELS[r], "path": f"/region/{r}/"} for r in REGIONS],
         topics=[{"slug": c, "label": CATEGORY_LABELS[c], "path": f"/topic/{c}/"} for c in CATEGORIES],
         u=lambda path: f"{base_path}{path}",
@@ -104,6 +119,13 @@ def build_site(settings: Settings, articles: list[Article] | None = None, output
     def page(template: str, rel_path: str, **ctx) -> None:
         html = env.get_template(template).render(**ctx)
         _write(out / rel_path.lstrip("/"), html)
+
+    def feed(rel_path: str, title: str, page_path: str, description: str, items: list[Article]) -> None:
+        page(
+            "feed.xml", rel_path,
+            articles=items[: settings.feed_items], feed_title=title, feed_page=page_path,
+            feed_self=rel_path, feed_description=description,
+        )
 
     # --- home
     latest = articles[: settings.home_items]
@@ -130,6 +152,12 @@ def build_site(settings: Settings, articles: list[Article] | None = None, output
             kicker="Region",
             description=f"The latest {REGION_LABELS[r]} coverage.",
             articles=by_region.get(r, [])[: settings.section_items],
+            feed_path=f"/region/{r}/feed.xml",
+            feed_label=f"{REGION_LABELS[r]}",
+        )
+        feed(
+            f"/region/{r}/feed.xml", f"{settings.site_title}: {REGION_LABELS[r]}", f"/region/{r}/",
+            f"The latest {REGION_LABELS[r]} stories.", by_region.get(r, []),
         )
     for c in CATEGORIES:
         page(
@@ -139,6 +167,12 @@ def build_site(settings: Settings, articles: list[Article] | None = None, output
             kicker="Topic",
             description=f"The latest {CATEGORY_LABELS[c].lower()} stories from around the world.",
             articles=by_category.get(c, [])[: settings.section_items],
+            feed_path=f"/topic/{c}/feed.xml",
+            feed_label=f"{CATEGORY_LABELS[c]}",
+        )
+        feed(
+            f"/topic/{c}/feed.xml", f"{settings.site_title}: {CATEGORY_LABELS[c]}", f"/topic/{c}/",
+            f"The latest {CATEGORY_LABELS[c].lower()} stories from around the world.", by_category.get(c, []),
         )
 
     # --- articles
@@ -165,9 +199,29 @@ def build_site(settings: Settings, articles: list[Article] | None = None, output
     page("search.html", "/search/index.html", title="Search")
     page("404.html", "404.html", title="Page not found")
 
+    # --- newsletter
+    editions = build_editions(articles, settings, settings.site_title)
+    if settings.newsletter_enabled:
+        digest = env.get_template("_digest.html")
+        digest_text = env.get_template("_digest.txt")
+        for e in editions:
+            e.html = digest.render(edition=e).strip()
+            e.text = digest_text.render(edition=e).strip() + "\n"
+            page("newsletter_edition.html", f"{e.path}index.html", edition=e, digest_html=e.html, title=e.subject)
+            _write(out / e.path.lstrip("/") / "index.txt", e.text)
+        page(
+            "newsletter.html", "/newsletter/index.html", title="Newsletter",
+            editions=editions[: settings.newsletter_archive_items],
+        )
+        page("newsletter_feed.xml", "/newsletter/feed.xml", editions=editions[:14])
+
+    # --- feeds index and image credits
+    page("feeds.html", "/feeds/index.html", title="RSS feeds")
+    page("credits.html", "/credits/index.html", title="Image credits", credits=[a for a in articles if a.image])
+
     # --- machine-readable
-    page("feed.xml", "feed.xml", articles=articles[: settings.feed_items])
-    page("sitemap.xml", "sitemap.xml", articles=articles)
+    feed("feed.xml", settings.site_title, "/", settings.site_tagline, articles)
+    page("sitemap.xml", "sitemap.xml", articles=articles, editions=editions)
     _write(out / "robots.txt", f"User-agent: *\nAllow: /\nSitemap: {base_url}/sitemap.xml\n" if base_url else "User-agent: *\nAllow: /\n")
     index = [
         {

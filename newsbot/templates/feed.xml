@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/">
 <channel>
-  <title>{{ site.title }}</title>
-  <link>{{ site.base_url }}/</link>
-  <description>{{ site.tagline }}</description>
+  <title>{{ feed_title }}</title>
+  <link>{{ abs_url(feed_page) }}</link>
+  <description>{{ feed_description }}</description>
   <language>{{ site.language }}</language>
   <lastBuildDate>{{ site.generated_at|rfc822 }}</lastBuildDate>
-  <atom:link href="{{ abs_url('/feed.xml') }}" rel="self" type="application/rss+xml"/>
+  <atom:link href="{{ abs_url(feed_self) }}" rel="self" type="application/rss+xml"/>
   {% for a in articles %}
   <item>
     <title>{{ a.headline }}</title>
     <link>{{ abs_url(a.path) }}</link>
     <guid isPermaLink="true">{{ abs_url(a.path) }}</guid>
     <pubDate>{{ a.published_at|rfc822 }}</pubDate>
+    <dc:creator>{{ site.byline }}</dc:creator>
     <category>{{ a.region|region_label }}</category>
     <category>{{ a.category|category_label }}</category>
     <description>{{ a.standfirst }} Sources: {{ a.source_names|join(', ') }}.</description>
+    <content:encoded><![CDATA[{{ a|feed_html }}]]></content:encoded>
+    {% if a.image %}<media:content url="{{ a.image.url }}" medium="image" width="{{ a.image.width }}" height="{{ a.image.height }}"><media:credit>{{ a.image.author }} / {{ a.image.license }}, via {{ a.image.source }}</media:credit></media:content>{% endif %}
   </item>
   {% endfor %}
 </channel>

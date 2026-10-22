@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from "_card.html" import card %}
+{% from "_subscribe.html" import subscribe %}
 {% block description %}{{ article.standfirst }}{% endblock %}
 {% block head %}
   <link rel="canonical" href="{{ abs_url(article.path) }}">
@@ -7,7 +8,7 @@
   <meta property="og:title" content="{{ article.headline }}">
   <meta property="og:description" content="{{ article.standfirst }}">
   <meta property="og:url" content="{{ abs_url(article.path) }}">
-  {% if site.show_images and article.image %}<meta property="og:image" content="{{ article.image.url }}">{% endif %}
+  {% if article.image %}<meta property="og:image" content="{{ article.image.url }}">{% endif %}
   <meta property="article:published_time" content="{{ article.published_at }}">
   <script type="application/ld+json">
   {{ {
@@ -20,6 +21,7 @@
     "publisher": {"@type": "Organization", "name": site.title},
     "mainEntityOfPage": abs_url(article.path),
     "keywords": article.tags|join(", "),
+    "image": article.image.url if article.image else none,
     "citation": article.sources|map(attribute="url")|list
   }|tojson }}
   </script>
@@ -43,10 +45,13 @@
     </p>
   </header>
 
-  {% if site.show_images and article.image %}
+  {% if article.image %}
   <figure class="article-media">
-    <img src="{{ article.image.url }}" alt="" loading="eager" referrerpolicy="no-referrer" data-hide-on-error>
-    <figcaption>Image: {{ article.image.credit }}</figcaption>
+    <img src="{{ article.image.url }}" alt="{{ article.image.alt }}" loading="eager" referrerpolicy="no-referrer" data-hide-on-error>
+    <figcaption>Illustrative image, not from the event.
+      <a href="{{ article.image.page_url }}" rel="noopener">{{ article.image.title }}</a> by {{ article.image.author }},
+      {% if article.image.license_url %}<a href="{{ article.image.license_url }}" rel="noopener">{{ article.image.license }}</a>{% else %}{{ article.image.license }}{% endif %},
+      via {{ article.image.source }}.</figcaption>
   </figure>
   {% endif %}
 
@@ -60,6 +65,13 @@
   <div class="article-body">
     {{ article.body_markdown|md|safe }}
   </div>
+
+  {% if article.differences %}
+  <section class="differences">
+    <h2>Where the reports differ</h2>
+    <ul>{% for d in article.differences %}<li>{{ d.point }}</li>{% endfor %}</ul>
+  </section>
+  {% endif %}
 
   {% if article.tags %}
   <p class="tags">{% for t in article.tags %}<span class="tag">{{ t }}</span>{% endfor %}</p>
@@ -78,6 +90,8 @@
     </ol>
   </section>
 </article>
+
+{{ subscribe() }}
 
 {% if related %}
 <section class="section">

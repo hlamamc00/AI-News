@@ -59,6 +59,9 @@ class State:
     def __init__(self, path: Path = STATE_FILE) -> None:
         self.path = path
         self.seen_urls: dict[str, str] = {}
+        # url -> number of times the writer rejected a story built from it
+        self.failures: dict[str, int] = {}
+        self._failure_stamps: dict[str, str] = {}
 
     @classmethod
     def load(cls, path: Path = STATE_FILE) -> "State":
@@ -67,12 +70,24 @@ class State:
             try:
                 data = json.loads(path.read_text(encoding="utf-8"))
                 state.seen_urls = dict(data.get("seen_urls", {}))
+                state.failures = {k: int(v) for k, v in dict(data.get("failures", {})).items()}
+                state._failure_stamps = dict(data.get("failure_stamps", {}))
             except (OSError, ValueError) as exc:
                 log.warning("could not read state file %s: %s", path, exc)
         return state
 
     def has(self, url: str) -> bool:
         return url in self.seen_urls
+
+    def failed(self, url: str, limit: int = 2) -> bool:
+        """True once the writer has rejected this URL *limit* times."""
+        return self.failures.get(url, 0) >= limit
+
+    def fail(self, urls: list[str], when: datetime | None = None) -> None:
+        stamp = (when or datetime.now(timezone.utc)).isoformat()
+        for url in urls:
+            self.failures[url] = self.failures.get(url, 0) + 1
+            self._failure_stamps[url] = stamp
 
     def mark(self, urls: list[str], when: datetime | None = None) -> None:
         stamp = (when or datetime.now(timezone.utc)).isoformat()
@@ -92,9 +107,25 @@ class State:
             if when >= cutoff:
                 keep[url] = stamp
         self.seen_urls = keep
+        live = {}
+        for url, stamp in self._failure_stamps.items():
+            try:
+                when = datetime.fromisoformat(stamp)
+            except ValueError:
+                continue
+            if when.tzinfo is None:
+                when = when.replace(tzinfo=timezone.utc)
+            if when >= cutoff:
+                live[url] = stamp
+        self._failure_stamps = live
+        self.failures = {u: n for u, n in self.failures.items() if u in live}
 
     def save(self) -> None:
         self.prune()
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        payload = {"seen_urls": dict(sorted(self.seen_urls.items()))}
+        payload = {
+            "seen_urls": dict(sorted(self.seen_urls.items())),
+            "failures": dict(sorted(self.failures.items())),
+            "failure_stamps": dict(sorted(self._failure_stamps.items())),
+        }
         self.path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")

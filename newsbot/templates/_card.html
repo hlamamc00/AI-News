@@ -1,8 +1,8 @@
 {% macro card(a, big=False) %}
 <article class="card{% if big %} card-big{% endif %}">
-  {% if site.show_images and a.image %}
-  <a class="card-media" href="{{ u(a.path) }}">
-    <img src="{{ a.image.url }}" alt="" loading="lazy" referrerpolicy="no-referrer" data-hide-on-error>
+  {% if a.image %}
+  <a class="card-media" href="{{ u(a.path) }}" title="Illustrative image: {{ a.image.author }}, {{ a.image.license }}, via {{ a.image.source }}">
+    <img src="{{ a.image.url }}" alt="{{ a.image.alt }}" loading="lazy" referrerpolicy="no-referrer" data-hide-on-error>
   </a>
   {% endif %}
   <div class="card-body">

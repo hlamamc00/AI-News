@@ -11,3 +11,7 @@ venv/
 
 # local secrets
 .env
+
+# local preview output (template writer): never committed or deployed
+content/preview/
+content/preview-state.json

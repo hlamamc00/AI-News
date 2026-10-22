@@ -23,7 +23,11 @@ class Article:
     published_at: str  # ISO 8601, UTC
     sources: list[dict[str, Any]]
     image: dict[str, str] | None = None
-    generated_by: str = "template"
+    # Where the outlets' accounts genuinely differ: [{"outlets": [...], "point": "..."}].
+    differences: list[dict[str, Any]] = field(default_factory=list)
+    # Neutral search phrase used to find an openly licensed illustration.
+    image_query: str = ""
+    generated_by: str = "claude"
     model: str | None = None
     word_count: int = 0
     id: str = ""

@@ -12,25 +12,38 @@ from .config import load_settings, load_sources
 
 def _cmd_run(args: argparse.Namespace) -> int:
     from .pipeline import run
+    from .writer import NoWriterError
 
-    report = run(
-        limit=args.limit,
-        writer_mode=args.writer,
-        extract=False if args.no_extract else None,
-        build=not args.no_build,
-        dry_run=args.dry_run,
-    )
+    try:
+        report = run(
+            limit=args.limit,
+            writer_mode=args.writer,
+            extract=False if args.no_extract else None,
+            build=not args.no_build,
+            dry_run=args.dry_run,
+        )
+    except NoWriterError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
     print(report.summary())
     if report.errors and args.verbose:
         for name, err in sorted(report.errors.items()):
             print(f"  feed failed: {name}: {err}", file=sys.stderr)
+    if report.selected and not report.written and not args.dry_run:
+        print("error: stories were selected but none could be written", file=sys.stderr)
+        return 1
     return 0
 
 
 def _cmd_build(args: argparse.Namespace) -> int:
     from .build import build_site
+    from .config import ARTICLES_DIR, PREVIEW_DIR
+    from .store import load_articles
 
-    out = build_site(load_settings())
+    articles = load_articles(ARTICLES_DIR)
+    if args.preview:
+        articles += load_articles(PREVIEW_DIR)
+    out = build_site(load_settings(), articles)
     print(f"site built at {out}")
     return 0
 
@@ -70,13 +83,14 @@ def main(argv: list[str] | None = None) -> int:
 
     p_run = sub.add_parser("run", help="fetch feeds, write new articles and rebuild the site")
     p_run.add_argument("--limit", type=int, help="maximum new articles this run")
-    p_run.add_argument("--writer", choices=["auto", "claude", "template"], help="override writer.mode")
+    p_run.add_argument("--writer", choices=["auto", "claude", "template"], help="override writer.mode (template = local preview only)")
     p_run.add_argument("--no-extract", action="store_true", help="skip fetching full source pages")
     p_run.add_argument("--no-build", action="store_true", help="write articles but do not rebuild the site")
     p_run.add_argument("--dry-run", action="store_true", help="show which stories would be written, change nothing")
     p_run.set_defaults(func=_cmd_run)
 
     p_build = sub.add_parser("build", help="rebuild the static site from stored articles")
+    p_build.add_argument("--preview", action="store_true", help="also include local preview articles")
     p_build.set_defaults(func=_cmd_build)
 
     p_sources = sub.add_parser("sources", help="list or check the feed catalogue")
